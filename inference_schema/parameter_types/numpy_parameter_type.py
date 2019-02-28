@@ -103,7 +103,11 @@ class NumpyParameterType(AbstractParameterType):
         if len(sample_dtype) > 0:
             converted_item = []
             for i in range(len(sample_dtype)):
-                new_item_field = cls._preprocess_json_input(json_input[i], sample_dtype[i])
+                if type(json_input) is dict:
+                    column_name = sample_dtype.names[i]
+                    new_item_field = cls._preprocess_json_input(json_input[column_name], sample_dtype[i])
+                else:
+                    new_item_field = cls._preprocess_json_input(json_input[i], sample_dtype[i])
                 converted_item.append(new_item_field)
             return tuple(converted_item)
         else:
