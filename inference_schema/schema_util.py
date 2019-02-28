@@ -74,7 +74,8 @@ def _get_decorators(func):
 def _get_function_full_qual_name(func):
     decorators = _get_decorators(func)
     base_func_name = decorators[-1].__name__
-    module_name = inspect.getmodule(decorators[-1]).__name__
+    module = inspect.getmodule(decorators[-1])
+    module_name = "" if module is None else module.__name__
     return '{}.{}'.format(module_name, base_func_name)
 
 
