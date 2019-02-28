@@ -203,9 +203,9 @@ def _add_input_schema_to_global_schema_dictionary(base_func_name, arg_names, sch
 
 
 def _add_output_schema_to_global_schema_dictionary(base_func_name, schema):
-    if OUTPUT_SCHEMA_ATTR in inference_schema.schema_util.__functions_schema__[base_func_name].keys():
+    if OUTPUT_SCHEMA_ATTR in __functions_schema__[base_func_name].keys():
         raise Exception('Error, output schema already defined for function: {}.'.format(base_func_name))
 
-    inference_schema.schema_util.__functions_schema__[base_func_name][OUTPUT_SCHEMA_ATTR] = schema
+    __functions_schema__[base_func_name][OUTPUT_SCHEMA_ATTR] = schema
 
 
