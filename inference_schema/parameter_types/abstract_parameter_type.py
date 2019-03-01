@@ -4,6 +4,7 @@
 
 import base64
 from abc import abstractmethod
+import datetime as dt
 
 try:
     from abc import ABCMeta

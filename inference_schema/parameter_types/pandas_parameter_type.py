@@ -56,10 +56,6 @@ class PandasParameterType(AbstractParameterType):
         return data_frame
 
     def input_to_swagger(self):
-
-        if not isinstance(self.sample_input, pd.core.frame.DataFrame):
-            raise TypeError('Only valid pandas data frames can be passed in to extract schema from.')
-
         # Construct internal schema
         shape = self.sample_input.shape
         columns = self.sample_input.columns.values.tolist()

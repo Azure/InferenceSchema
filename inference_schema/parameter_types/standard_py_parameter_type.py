@@ -4,6 +4,7 @@
 
 import base64
 import datetime
+import pytz
 import sys
 import json
 from dateutil import parser
@@ -59,8 +60,9 @@ class StandardPythonParameterType(AbstractParameterType):
             date_time_with_zone = self.sample_input
             if self.sample_input.tzinfo is None:
                 # If no timezone data is passed in, consider UTC
-                date_time_with_zone = datetime.datetime(self.sample_input.year, self.sample_input.month, self.sample_input.day,
-                                                        self.sample_input.hour, self.sample_input.minute, self.sample_input.second,
+                date_time_with_zone = datetime.datetime(self.sample_input.year, self.sample_input.month,
+                                                        self.sample_input.day, self.sample_input.hour,
+                                                        self.sample_input.minute, self.sample_input.second,
                                                         self.sample_input.microsecond, pytz.utc)
             sample = date_time_with_zone.strftime(DATETIME_FORMAT)
             schema = {"type": "string", "format": "date-time", "example": sample}
@@ -68,8 +70,8 @@ class StandardPythonParameterType(AbstractParameterType):
             time_with_zone = self.sample_input
             if self.sample_input.tzinfo is None:
                 # If no timezone data is passed in, consider UTC
-                time_with_zone = datetime.time(self.sample_input.hour, self.sample_input.minute, self.sample_input.second,
-                                               self.sample_input.microsecond, pytz.utc)
+                time_with_zone = datetime.time(self.sample_input.hour, self.sample_input.minute,
+                                               self.sample_input.second, self.sample_input.microsecond, pytz.utc)
             sample = time_with_zone.strftime(TIME_FORMAT)
             schema = {"type": "string", "format": "time", "example": sample}
         elif isinstance(self.sample_data_type, bytearray):
