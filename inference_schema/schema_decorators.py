@@ -14,10 +14,19 @@ from ._constants import INPUT_SCHEMA_ATTR, OUTPUT_SCHEMA_ATTR
 
 def input_schema(param_name, param_type, convert_to_provided_type=True):
     """
+    Decorator to define an input schema model for a function parameter
+    The input schema is a representation of what type the function expects
+    and will also generates a swagger representation of that input, that can
+    be used on a swagger api document.
 
-    :param param_name:
+    If 'conver_to_provided_type' is True, and the function receive as argument for
+    that parameter a parsed json representation of the type (in the format specified
+    in the swagger schema generated), then the argument will be converted to the
+    expected type.
+
+    :param param_name: name of the parameter which input schema is being specified
     :type param_name: str
-    :param param_type:
+    :param param_type: type of the parameter
     :type param_type: AbstractParameterType
     :param convert_to_provided_type:
     :type convert_to_provided_type: bool
@@ -65,6 +74,11 @@ def input_schema(param_name, param_type, convert_to_provided_type=True):
 
 def output_schema(output_type):
     """
+    Decorator to define an output schema model for a function parameter
+    The output schema is a representation of type of data the function
+    is expected to return.
+    A swagger schema model will be generated for that out, that can be
+    used on a swagger api document.
 
     :param output_type:
     :type output_type: AbstractParameterType
@@ -165,6 +179,19 @@ def _schema_decorator(wrapper=None, enabled=None, attr_name=None, schema=None):
 
 
 def _add_schema_to_global_schema_dictionary(attr_name, schema, user_func):
+    """
+    function to add a generated schema for 'attr_name', to the function schema dict
+
+    :param attr_name:
+    :type attr_name: str
+    :param schema:
+    :type schema: dict
+    :param user_func:
+    :type user_func: function | FunctionWrapper
+    :return:
+    :rtype:
+    """
+    
     if attr_name is None or schema is None:
         pass
 
@@ -184,6 +211,19 @@ def _add_schema_to_global_schema_dictionary(attr_name, schema, user_func):
 
 
 def _add_input_schema_to_global_schema_dictionary(base_func_name, arg_names, schema):
+    """
+    function to add a generated input schema, to the function schema dict
+
+    :param base_func_name: function full qualified name
+    :type base_func_name: str
+    :param arg_names:
+    :type arg_names: list
+    :param schema:
+    :type schema: dict
+    :return:
+    :rtype:
+    """
+
     if INPUT_SCHEMA_ATTR not in __functions_schema__[base_func_name].keys():
         __functions_schema__[base_func_name][INPUT_SCHEMA_ATTR] = {
             "type": "object",
@@ -203,6 +243,17 @@ def _add_input_schema_to_global_schema_dictionary(base_func_name, arg_names, sch
 
 
 def _add_output_schema_to_global_schema_dictionary(base_func_name, schema):
+    """
+    function to add a generated output schema, to the function schema dict
+
+    :param base_func_name: function full qualified name
+    :type base_func_name: str
+    :param schema:
+    :type schema: dict
+    :return:
+    :rtype:
+    """
+
     if OUTPUT_SCHEMA_ATTR in __functions_schema__[base_func_name].keys():
         raise Exception('Error, output schema already defined for function: {}.'.format(base_func_name))
 

@@ -23,6 +23,14 @@ class Dtype2Swagger:
 
     @staticmethod
     def convert_dtype_to_swagger(dtype):
+        """
+        Converts a numpy dtype type into a swagger valid type
+
+        :param dtype:
+        :type dtype: numpy.dtype
+        :return: the converted swagger type.
+        :rtype: dict
+        """
         if len(dtype) == 0:
             if dtype.subdtype is None:
                 # Simple scalar type
@@ -41,6 +49,16 @@ class Dtype2Swagger:
 
     @staticmethod
     def handle_swagger_array(item_swagger_type, shape):
+        """
+        Converts a dtype type representing a sub-array to a swagger valid type
+
+        :param item_swagger_type:
+        :type item_swagger_type: dict
+        :param shape:
+        :type shape: numpy.dtype.shape
+        :return: the converted swagger type.
+        :rtype: dict
+        """
         # Simple array representation
         swag_array = {'type': 'array', 'items': item_swagger_type}
 
@@ -53,10 +71,24 @@ class Dtype2Swagger:
 
     @staticmethod
     def get_swagger_object_schema():
+        """
+        schema for a swagger object
+
+        :return: the converted swagger type.
+        :rtype: dict
+        """
         return {'type': 'object', 'properties': {}}
 
     @staticmethod
     def _convert_simple_dtype_to_swagger(numpy_type):
+        """
+        Converts a non dtype sub-array type to swagger valid type 
+
+        :param numpy_type:
+        :type numpy_type: numpy.dtype
+        :return: the converted swagger type.
+        :rtype: dict
+        """
         actual_type = numpy_type.name.lower()
         if actual_type in Dtype2Swagger._switcher.keys():
             return Dtype2Swagger._switcher.get(actual_type)

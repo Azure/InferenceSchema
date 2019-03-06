@@ -15,7 +15,7 @@ def get_input_schema(func):
     Extract the swagger input schema model from the decorated function.
 
     :param func:
-    :type func: function | FunctionWrappere
+    :type func: function | FunctionWrapper
     :return:
     :rtype: dict
     """
@@ -43,8 +43,9 @@ def get_schemas_dict():
 def is_schema_decorated(func):
     """
     Check if a function is schema decorated
+
     :param func:
-    :type func: function | FunctionWrappere
+    :type func: function | FunctionWrapper
     :return:
     :rtype: boolean
     """
@@ -55,6 +56,7 @@ def is_schema_decorated(func):
 
 def _get_decorators(func):
     """
+    Gets a list if decorators applied to a function
 
     :param func:
     :type func: function | FunctionWrapper
@@ -72,6 +74,15 @@ def _get_decorators(func):
 
 
 def _get_function_full_qual_name(func):
+    """
+    Gets the funtion name (original function name) + module
+    
+    :param func:
+    :type func: function | FunctionWrapper
+    :return:
+    :rtype: str
+    """
+
     decorators = _get_decorators(func)
     base_func_name = decorators[-1].__name__
     module = inspect.getmodule(decorators[-1])
@@ -80,6 +91,16 @@ def _get_function_full_qual_name(func):
 
 
 def _get_schema_from_dictionary(attr, func):
+    """
+    Extract the schema specified on attr from the function schema dict
+
+    :param attr:
+    :type attr: str
+    :param func:
+    :type func: function | FunctionWrapper
+    :return:
+    :rtype: dict
+    """
 
     schema = {"type": "object"}
 
