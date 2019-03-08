@@ -18,9 +18,23 @@ from .abstract_parameter_type import AbstractParameterType
 
 
 class SparkParameterType(AbstractParameterType):
+    """
+    Class used to specify an expected parameter as a Spark type.
+    """
 
     def __init__(self, sample_input, apply_sample_schema=True):
+        """
+        Construct the SparkParameterType object.
 
+        :param sample_input:
+        :type sample_input: DataFrame
+        :param enforce_column_type:
+        :type enforce_column_type: bool
+        :param enforce_shape:
+        :type enforce_shape: bool
+        :param apply_column_names:
+        :type apply_column_names: bool
+        """
         if not isinstance(sample_input, DataFrame):
             raise Exception('Invalid sample input provided, must provide a sample Spark DataFrame array.')
 
@@ -28,6 +42,15 @@ class SparkParameterType(AbstractParameterType):
         self.apply_sample_schema = apply_sample_schema
 
     def deserialize_input(self, input_data):
+        """
+        Convert the provided spark-like object into a spark dataframe. Will attempt to enforce column type and array shape
+        as specified when constructed.
+
+        :param input_data: The spark-like object to convert.
+        :type input_data: list
+        :return: The converted spark dataframe.
+        :rtype: DataFrame
+        """
         if isinstance(input_data, DataFrame):
             return input_data
 
@@ -53,6 +76,12 @@ class SparkParameterType(AbstractParameterType):
         return data_frame
 
     def input_to_swagger(self):
+        """
+        Generates a swagger schema for the provided sample spark array
+
+        :return: The swagger schema object.
+        :rtype: dict
+        """
         # First get the schema for the structured type making up a dataframe row
         data_type_swagger = SparkParameterType._convert_spark_schema_to_swagger(self.sample_input.schema)
 
@@ -98,6 +127,15 @@ class SparkParameterType(AbstractParameterType):
 
     @classmethod
     def _convert_data_type_to_swagger(cls, basic_type):
+        """
+        Converts pyspark.sql.types.DataType into a swagger valid type
+
+        :param basic_type:
+        :type basic_type: pyspark.sql.types.DataType
+        :return: the converted swagger type.
+        :rtype: dict
+        """
+
         _switcher = {
             'byte': {'type': 'integer', 'format': 'int8'},
             'short': {'type': 'integer', 'format': 'int16'},
@@ -128,6 +166,14 @@ class SparkParameterType(AbstractParameterType):
 
     @classmethod
     def _convert_ArrayType_to_swagger(cls, array_type):
+        """
+        Converts an ArrayType into a swagger valid type
+
+        :param array_type:
+        :type array_type: ArrayType
+        :return: the converted swagger type.
+        :rtype: dict
+        """
         if not isinstance(array_type, ArrayType):
             raise TypeError("Invalid data type to convert: expected only valid pyspark.sql.types.ArrayType instances")
         element_schema = cls._convert_spark_schema_to_swagger(array_type.elementType)
@@ -136,6 +182,14 @@ class SparkParameterType(AbstractParameterType):
 
     @classmethod
     def _convert_MapType_to_swagger(cls, map_type):
+        """
+        Converts an ArrayType into a swagger valid type
+
+        :param map_type:
+        :type map_type: MapType
+        :return: the converted swagger type.
+        :rtype: dict
+        """
         if not isinstance(map_type, MapType):
             raise TypeError("Invalid data type to convert: expected only valid pyspark.sql.types.MapType instances")
         value_schema = cls._convert_spark_schema_to_swagger(map_type.valueType)
@@ -144,6 +198,14 @@ class SparkParameterType(AbstractParameterType):
 
     @classmethod
     def _convert_spark_schema_to_swagger(cls, datatype):
+        """
+        Converts an spark schema-like type into a swagger valid type
+
+        :param datatype:
+        :type datatype: DataType
+        :return: the converted swagger type.
+        :rtype: dict
+        """
         if not isinstance(datatype, DataType):
             raise TypeError("Invalid data type to convert: expected only valid pyspark.sql.types.DataType types")
 

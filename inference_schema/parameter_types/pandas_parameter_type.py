@@ -9,8 +9,24 @@ from ._swagger_from_dtype import Dtype2Swagger
 
 
 class PandasParameterType(AbstractParameterType):
+    """
+    Class used to specify an expected parameter as a Pandas type.
+    """
 
     def __init__(self, sample_input, enforce_column_type=True, enforce_shape=True, apply_column_names=True):
+        """
+        Construct the PandasParameterType object.
+
+        :param sample_input: A sample input dataframe. This sample will be used as a basis for column types and array
+            shape.
+        :type sample_input: pd.DataFrame
+        :param enforce_column_type:
+        :type enforce_column_type: bool
+        :param enforce_shape:
+        :type enforce_shape: bool
+        :param apply_column_names:
+        :type apply_column_names: bool
+        """
         if not isinstance(sample_input, pd.DataFrame):
             raise Exception("Invalid sample input provided, must provide a sample Numpy array.")
 
@@ -20,6 +36,15 @@ class PandasParameterType(AbstractParameterType):
         self.apply_column_names = apply_column_names
 
     def deserialize_input(self, input_data):
+        """
+        Convert the provided pandas-like object into a pandas dataframe. Will attempt to enforce column type and array shape
+        as specified when constructed.
+
+        :param input_data: The pandas-like object to convert.
+        :type input_data: list | dict
+        :return: The converted pandas dataframe.
+        :rtype: np.DataFrame
+        """
 
         if isinstance(input_data, pd.DataFrame):
             return input_data
@@ -56,6 +81,13 @@ class PandasParameterType(AbstractParameterType):
         return data_frame
 
     def input_to_swagger(self):
+        """
+        Generates a swagger schema for the provided sample pandas dataframe
+
+        :return: The swagger schema object.
+        :rtype: dict
+        """
+        
         # Construct internal schema
         shape = self.sample_input.shape
         columns = self.sample_input.columns.values.tolist()
