@@ -43,12 +43,12 @@ class StandardPythonParameterType(AbstractParameterType):
             schema = {"type": "integer", "format": "int64", "example": self.sample_input}
         elif self.sample_data_type is bytes:
             # Bytes type is not json serializable so will convert to a base 64 string for the sample
-            sample = base64.b64encode(self.sample_data_type).decode('utf-8')
+            sample = base64.b64encode(self.sample_input).decode('utf-8')
             schema = {"type": "string", "format": "byte", "example": sample}
         elif self.sample_data_type is range:
-            schema = self._get_swagger_for_list(self.sample_data_type, {"type": "integer", "format": "int64"})
+            schema = self._get_swagger_for_list(self.sample_input, {"type": "integer", "format": "int64"})
         elif self.sample_data_type is str:
-            schema = {"type": "string", "example": self.sample_data_type}
+            schema = {"type": "string", "example": self.sample_input}
         elif self.sample_data_type is float:
             schema = {"type": "number", "format": "double", "example": self.sample_input}
         elif self.sample_data_type is bool:
