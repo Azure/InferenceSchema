@@ -43,18 +43,18 @@ class StandardPythonParameterType(AbstractParameterType):
             schema = {"type": "integer", "format": "int64", "example": self.sample_input}
         elif self.sample_data_type is bytes:
             # Bytes type is not json serializable so will convert to a base 64 string for the sample
-            sample = base64.b64encode(self.sample_data_type).decode('utf-8')
+            sample = base64.b64encode(self.sample_input).decode('utf-8')
             schema = {"type": "string", "format": "byte", "example": sample}
         elif self.sample_data_type is range:
-            schema = self._get_swagger_for_list(self.sample_data_type, {"type": "integer", "format": "int64"})
+            schema = self._get_swagger_for_list(self.sample_input, {"type": "integer", "format": "int64"})
         elif self.sample_data_type is str:
-            schema = {"type": "string", "example": self.sample_data_type}
+            schema = {"type": "string", "example": self.sample_input}
         elif self.sample_data_type is float:
             schema = {"type": "number", "format": "double", "example": self.sample_input}
         elif self.sample_data_type is bool:
             schema = {"type": "boolean", "example": self.sample_input}
         elif self.sample_data_type is datetime.date:
-            sample = self.sample_data_type.strftime(DATE_FORMAT)
+            sample = self.sample_input.strftime(DATE_FORMAT)
             schema = {"type": "string", "format": "date", "example": sample}
         elif self.sample_data_type is datetime.datetime:
             date_time_with_zone = self.sample_input
@@ -74,13 +74,13 @@ class StandardPythonParameterType(AbstractParameterType):
                                                self.sample_input.second, self.sample_input.microsecond, pytz.utc)
             sample = time_with_zone.strftime(TIME_FORMAT)
             schema = {"type": "string", "format": "time", "example": sample}
-        elif isinstance(self.sample_data_type, bytearray):
+        elif self.sample_data_type is bytearray:
             # Bytes type is not json serializable so will convert to a base 64 string for the sample
             sample = base64.b64encode(self.sample_input).decode('utf-8')
             schema = {"type": "string", "format": "byte", "example": sample}
-        elif type(self.sample_input) is list or type(self.sample_input) is tuple:
+        elif self.sample_data_type is list or self.sample_data_type is tuple:
             schema = self._get_swagger_for_list(self.sample_input)
-        elif type(self.sample_input) is dict:
+        elif self.sample_data_type is dict:
             schema = {"type": "object", "additionalProperties": {"type": "object"}, "example": self.sample_input}
 
         # If we didn't match any type yet, try out best to fit this to an object
