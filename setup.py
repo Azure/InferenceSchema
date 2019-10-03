@@ -44,10 +44,8 @@ setup(
     classifiers=CLASSIFIERS,
     author='Microsoft Corp',
     license=LICENSE,
-
     install_requires=DEPENDENCIES,
     extras_require=EXTRAS,
-
     packages=find_packages(exclude=['*.tests']),
     include_package_data=True
 )

@@ -1,0 +1,24 @@
+{
+	"type": "array",
+	"items": {
+		"type": "object",
+		"properties": {
+			"f0": {
+				"type": "number",
+				"format": "double"
+			},
+			"f1": {
+				"type": "number",
+				"format": "double"
+			}
+		}
+	},
+	"example": [{
+			"f0": 8.0,
+			"f1": 7.0
+		}, {
+			"f0": 6.0,
+			"f1": 7.0
+		}
+	]
+}

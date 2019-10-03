@@ -1,0 +1,18 @@
+{
+	"type": "array",
+	"items": {
+		"type": "object",
+		"properties": {
+			"age": {
+				"type": "integer",
+				"format": "int64"
+			}
+		}
+	},
+	"example": [{
+			"age": 25
+		}, {
+			"age": 26
+		}
+	]
+}

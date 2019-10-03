@@ -1,3 +1,6 @@
+# ---------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# ---------------------------------------------------------
 
 import numpy as np
 import pandas as pd
@@ -10,7 +13,8 @@ from pyspark.sql.session import SparkSession
 
 
 numpy_input_data = [('Sarah', (8.0, 7.0)), ('John', (6.0, 7.0))]
-numpy_sample_input = np.array(numpy_input_data, dtype=np.dtype([('name', np.unicode_, 16), ('grades', np.float64, (2,))]))
+numpy_sample_input = np.array(numpy_input_data,
+                              dtype=np.dtype([('name', np.unicode_, 16), ('grades', np.float64, (2,))]))
 numpy_output_data = [(8.0, 7.0), (6.0, 7.0)]
 numpy_sample_output = np.array(numpy_output_data, dtype='float64, float64')
 

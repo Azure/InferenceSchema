@@ -1,19 +1,22 @@
+# ---------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# ---------------------------------------------------------
 
 import numpy as np
 import pandas as pd
-import pyspark
 
-from inference_schema.schema_util import get_input_schema, get_output_schema
 from pandas.util.testing import assert_frame_equal
 from pyspark.sql.session import SparkSession
 
 from .resources.decorated_function_samples import numpy_func, pandas_func, spark_func, standard_py_func
 
+
 class TestNumpyParameterType(object):
 
     def test_numpy_handling(self):
         numpy_input = [('Sarah', (8.0, 7.0))]
-        grades = np.array(numpy_input, dtype=np.dtype([('name', np.unicode_, 16), ('grades', np.float64, (2,))]))['grades']
+        grades = np.array(numpy_input,
+                          dtype=np.dtype([('name', np.unicode_, 16), ('grades', np.float64, (2,))]))['grades']
         result = numpy_func(numpy_input)
         assert np.array_equal(result, grades)
 
@@ -63,7 +66,7 @@ class TestSparkParameterType(object):
         assert age.subtract(result).count() == result.subtract(age).count() == 0
 
 
-class TestStandaradPythonParameterType(object):
+class TestStandardPythonParameterType(object):
 
     def test_standard_handling(self):
         standard_input = {'name': ['Sarah'], 'age': [25]}
