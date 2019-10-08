@@ -28,7 +28,7 @@ class PandasParameterType(AbstractParameterType):
         :type apply_column_names: bool
         """
         if not isinstance(sample_input, pd.DataFrame):
-            raise Exception("Invalid sample input provided, must provide a sample Numpy array.")
+            raise Exception("Invalid sample input provided, must provide a sample Pandas Dataframe.")
 
         super(PandasParameterType, self).__init__(sample_input)
         self.enforce_column_type = enforce_column_type

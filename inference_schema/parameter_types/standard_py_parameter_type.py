@@ -13,11 +13,28 @@ from ._constants import DATE_FORMAT, DATETIME_FORMAT, TIME_FORMAT, ERR_PYTHON_DA
 
 
 class StandardPythonParameterType(AbstractParameterType):
+    """
+    Class used to specify an expected parameter as a standard Python type.
+    """
 
     def __init__(self, sample_input):
+        """
+        Construct the StandardPythonParameterType object.
+
+        :param sample_input:
+        :type sample_input:
+        """
         super(StandardPythonParameterType, self).__init__(sample_input)
 
     def deserialize_input(self, input_data):
+        """
+        Convert the provided data into the expected Python object.
+
+        :param input_data:
+        :type input_data: varies
+        :return:
+        :rtype: varies
+        """
         if self.sample_data_type is datetime.date:
             input_data = datetime.date.strptime(input_data, DATE_FORMAT)
         elif self.sample_data_type is datetime.datetime:
@@ -34,6 +51,12 @@ class StandardPythonParameterType(AbstractParameterType):
         return input_data
 
     def input_to_swagger(self):
+        """
+        Generates a swagger schema for the provided sample type
+
+        :return: The swagger schema object.
+        :rtype: dict
+        """
         if self.sample_input is None:
             raise ValueError("Python data cannot be None")
 

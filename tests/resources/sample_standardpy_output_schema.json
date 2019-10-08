@@ -1,0 +1,9 @@
+{
+	"type": "object",
+	"additionalProperties": {
+		"type": "object"
+	},
+	"example": {
+		"age": [25, 26]
+	}
+}

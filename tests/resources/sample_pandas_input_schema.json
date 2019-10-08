@@ -1,0 +1,30 @@
+{
+	"type": "object",
+	"properties": {
+		"param": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"age": {
+						"type": "integer",
+						"format": "int64"
+					}
+				}
+			}
+		}
+	},
+	"example": {
+		"param": [{
+				"name": "Sarah",
+				"age": 25
+			}, {
+				"name": "John",
+				"age": 26
+			}
+		]
+	}
+}

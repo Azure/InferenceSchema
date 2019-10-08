@@ -53,17 +53,11 @@ def input_schema(param_name, param_type, convert_to_provided_type=True):
                                     'is not in the decorated function.'.format(param_name))
                 param_position = arg_names.index(param_name)
 
-                if not isinstance(
-                        args[param_position],
-                        param_type.sample_data_type):
-                    args[param_position] = \
-                        param_type.deserialize_input(args[param_position])
+                if not isinstance(args[param_position], param_type.sample_data_type):
+                    args[param_position] = param_type.deserialize_input(args[param_position])
             else:
-                if not isinstance(
-                        kwargs[param_name],
-                        param_type.sample_data_type):
-                    kwargs[param_name] = \
-                        param_type.deserialize_input(kwargs[param_name])
+                if not isinstance(kwargs[param_name], param_type.sample_data_type):
+                    kwargs[param_name] = param_type.deserialize_input(kwargs[param_name])
 
             args = tuple(args)
 

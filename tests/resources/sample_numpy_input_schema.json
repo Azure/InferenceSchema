@@ -1,0 +1,33 @@
+{
+	"type": "object",
+	"properties": {
+		"param": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"grades": {
+						"type": "array",
+						"items": {
+							"type": "number",
+							"format": "double"
+						}
+					}
+				}
+			}
+		}
+	},
+	"example": {
+		"param": [{
+				"name": "Sarah",
+				"grades": [8.0, 7.0]
+			}, {
+				"name": "John",
+				"grades": [6.0, 7.0]
+			}
+		]
+	}
+}

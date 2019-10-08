@@ -10,7 +10,8 @@ VERSION = '0.1a0'
 
 NAME = 'inference-schema'
 
-DESCRIPTION = 'A project to add function decorators to allow for API swagger generation and schema type enforcement.'
+DESCRIPTION = 'This package is intended to provide a uniform schema for common machine learning applications, as ' \
+              'well as a set of decorators that can be used to aid in web based ML prediction applications.'
 
 DEPENDENCIES = [
     'python_dateutil>=2.5.3',
@@ -44,10 +45,8 @@ setup(
     classifiers=CLASSIFIERS,
     author='Microsoft Corp',
     license=LICENSE,
-
     install_requires=DEPENDENCIES,
     extras_require=EXTRAS,
-
     packages=find_packages(exclude=['*.tests']),
     include_package_data=True
 )

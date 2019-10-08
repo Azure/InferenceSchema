@@ -15,6 +15,10 @@ except ImportError:
 
 
 class AbstractParameterType(ABC):
+    """
+    Abstract parent class for the expected parameter types. This class can be extended to implement custom types by
+    overridding the `deserialize_input` and `input_to_swagger` methods.
+    """
 
     def __init__(self, sample_input):
         self.sample_input = sample_input
@@ -22,10 +26,17 @@ class AbstractParameterType(ABC):
 
     @abstractmethod
     def deserialize_input(self, input_data):
+        """
+        Abstract method to be overridden by concrete types. Used to convert JSON like input into the concrete object.
+        """
         pass
 
     @abstractmethod
     def input_to_swagger(self):
+        """
+        Abstract method to be overridden by concrete types. Used to convert the provided sample input into a swagger
+        schema object.
+        """
         pass
 
     @classmethod
