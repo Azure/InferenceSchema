@@ -1,7 +1,7 @@
 # InferenceSchema
 
-This package is intended to provide a uniform schema for common machine learning applications, as well as a set of
-decorators that can be used to aid in web based ML prediction applications.
+This Python package is intended to provide a uniform schema for common machine learning applications, as well as a set
+of decorators that can be used to aid in web based ML prediction applications.
 
 ## Features
 
@@ -9,7 +9,7 @@ decorators that can be used to aid in web based ML prediction applications.
 
 The input and output decorators offered by this package are design to simplify the process of prediction in a web based
 application. They each provide support for schema generation based on a provided sample input, with the idea being
-that this schema can then be taken and embedded into an API swagger specification. Additionally, the input decorator
+that this schema can then be taken and embedded into an API Swagger specification. Additionally, the input decorator
 provides support for type conversion at runtime from a JSON based input into the user specified sample type, to allow
 for easy conversion of input over the wire into the datatype that the decorated function expects. These decorators can
 be nested with each other and with other decorators as desired.
@@ -18,7 +18,7 @@ be nested with each other and with other decorators as desired.
 
 The package provides support for generating schema based on example input provided to the input and output decorators.
 This is intended to introduce a uniform conversion between a JSON format that can be embedded into a swagger
-specification and the in memory Python objects which may or may not have a built in JSON representation.
+specification and the in memory Python objects which may or may not have a built-in JSON representation.
 
 ### Type Conversion
 
