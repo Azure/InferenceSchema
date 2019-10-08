@@ -37,6 +37,12 @@ def get_output_schema(func):
 
 
 def get_schemas_dict():
+    """
+    Retrieve a deepcopy of the dictionary that is used to track the provided function schemas
+
+    :return:
+    :rtype: dict
+    """
     return copy.deepcopy(__functions_schema__)
 
 
