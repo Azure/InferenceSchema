@@ -43,8 +43,8 @@ class SparkParameterType(AbstractParameterType):
 
     def deserialize_input(self, input_data):
         """
-        Convert the provided spark-like object into a spark dataframe. Will attempt to enforce column type and array shape
-        as specified when constructed.
+        Convert the provided spark-like object into a spark dataframe. Will attempt to enforce column type and array
+        shape as specified when constructed.
 
         :param input_data: The spark-like object to convert.
         :type input_data: list

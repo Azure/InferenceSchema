@@ -37,8 +37,8 @@ class PandasParameterType(AbstractParameterType):
 
     def deserialize_input(self, input_data):
         """
-        Convert the provided pandas-like object into a pandas dataframe. Will attempt to enforce column type and array shape
-        as specified when constructed.
+        Convert the provided pandas-like object into a pandas dataframe. Will attempt to enforce column type and array
+        shape as specified when constructed.
 
         :param input_data: The pandas-like object to convert.
         :type input_data: list | dict
