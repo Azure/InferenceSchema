@@ -1,4 +1,4 @@
-[![Integration Build](https://github.com/Azure/InferenceSchema/workflows/Integration Tests/badge.svg)](https://github.com/Azure/InferenceSchema/actions)
+[![Integration Build](https://github.com/Azure/InferenceSchema/workflows/Integration%20Tests/badge.svg)](https://github.com/Azure/InferenceSchema/actions)
 
 # InferenceSchema
 
