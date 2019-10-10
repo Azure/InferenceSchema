@@ -32,7 +32,7 @@ jobs:
     - name: Lint with flake8
       run: |
         pip install flake8
-        flake8 . --count --max-line-length=127 --statistics
+        flake8 . --count --max-line-length=120 --statistics
       shell: bash -xeo pipefail {0}
     - name: Test with pytest
       run: |
