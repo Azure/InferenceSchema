@@ -13,7 +13,7 @@ from .resources.decorated_function_samples import numpy_func, pandas_func, spark
 
 class TestNumpySchemaGeneration(object):
     numpy_sample_input_schema = json.loads(
-        resource_string(__name__, os.path.join('resources','sample_numpy_input_schema.json')).decode('ascii'))
+        resource_string(__name__, os.path.join('resources', 'sample_numpy_input_schema.json')).decode('ascii'))
     numpy_sample_output_schema = json.loads(
         resource_string(__name__, os.path.join('resources', 'sample_numpy_output_schema.json')).decode('ascii'))
 

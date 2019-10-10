@@ -81,8 +81,8 @@ def _get_decorators(func):
 
 def _get_function_full_qual_name(func):
     """
-    Gets the funtion name (original function name) + module
-    
+    Gets the function name (original function name) + module
+
     :param func:
     :type func: function | FunctionWrapper
     :return:
@@ -114,4 +114,3 @@ def _get_schema_from_dictionary(attr, func):
     func_base_name = _get_function_full_qual_name(decorators[-1])
 
     return __functions_schema__.get(func_base_name, {}).get(attr, schema)
-

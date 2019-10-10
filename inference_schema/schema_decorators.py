@@ -185,7 +185,7 @@ def _add_schema_to_global_schema_dictionary(attr_name, schema, user_func):
     :return:
     :rtype:
     """
-    
+
     if attr_name is None or schema is None:
         pass
 
@@ -252,5 +252,3 @@ def _add_output_schema_to_global_schema_dictionary(base_func_name, schema):
         raise Exception('Error, output schema already defined for function: {}.'.format(base_func_name))
 
     __functions_schema__[base_func_name][OUTPUT_SCHEMA_ATTR] = schema
-
-

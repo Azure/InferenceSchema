@@ -59,7 +59,7 @@ class PandasParameterType(AbstractParameterType):
 
         if self.enforce_column_type:
             sample_input_column_types = self.sample_input.dtypes.to_dict()
-            converted_types = {x:sample_input_column_types.get(x, object) for x in data_frame.columns}
+            converted_types = {x: sample_input_column_types.get(x, object) for x in data_frame.columns}
             data_frame = data_frame.astype(dtype=converted_types, copy=False)
 
         if self.enforce_shape:
@@ -87,9 +87,8 @@ class PandasParameterType(AbstractParameterType):
         :return: The swagger schema object.
         :rtype: dict
         """
-        
+
         # Construct internal schema
-        shape = self.sample_input.shape
         columns = self.sample_input.columns.values.tolist()
         types = self.sample_input.dtypes.tolist()
 

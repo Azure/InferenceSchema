@@ -82,7 +82,7 @@ class Dtype2Swagger:
     @staticmethod
     def _convert_simple_dtype_to_swagger(numpy_type):
         """
-        Converts a non dtype sub-array type to swagger valid type 
+        Converts a non dtype sub-array type to swagger valid type
 
         :param numpy_type:
         :type numpy_type: numpy.dtype
