@@ -30,7 +30,7 @@ class NumpyParameterType(AbstractParameterType):
         """
         if not isinstance(sample_input, np.ndarray):
             raise Exception("Invalid sample input provided, must provide a sample Numpy array.")
-        
+
         super(NumpyParameterType, self).__init__(sample_input)
         self.enforce_column_type = enforce_column_type
         self.enforce_shape = enforce_shape
