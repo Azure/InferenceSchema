@@ -47,6 +47,6 @@ setup(
     license=LICENSE,
     install_requires=DEPENDENCIES,
     extras_require=EXTRAS,
-    packages=find_packages(exclude=['*.tests']),
+    packages=find_packages(exclude=['tests', 'tests.*']),
     include_package_data=True
 )
