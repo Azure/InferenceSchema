@@ -1,3 +1,5 @@
+[![Integration Build](https://github.com/Azure/InferenceSchema/workflows/Integration%20Tests/badge.svg)](https://github.com/Azure/InferenceSchema/actions)
+
 # InferenceSchema
 
 This Python package is intended to provide a uniform schema for common machine learning applications, as well as a set
