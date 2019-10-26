@@ -6,8 +6,10 @@ import numpy as np
 import pandas as pd
 import pyspark
 
-from inference_schema.parameter_types import NumpyParameterType, PandasParameterType, SparkParameterType,\
-    StandardPythonParameterType
+from inference_schema.parameter_types.numpy_parameter_type import NumpyParameterType
+from inference_schema.parameter_types.pandas_parameter_type import PandasParameterType
+from inference_schema.parameter_types.spark_parameter_type import SparkParameterType
+from inference_schema.parameter_types.standard_py_parameter_type import StandardPythonParameterType
 from inference_schema.schema_decorators import input_schema, output_schema
 from pyspark.sql.session import SparkSession
 
