@@ -56,7 +56,7 @@ def pandas_func(param):
 
 
 pandas_sample_timestamp_input = pd.DataFrame({'datetime': pd.Series(['2013-12-31T00:00:00.000Z'],
-                                                                     dtype='datetime64[ns]')})
+                                                                    dtype='datetime64[ns]')})
 
 
 @input_schema('param', PandasParameterType(pandas_sample_timestamp_input))
