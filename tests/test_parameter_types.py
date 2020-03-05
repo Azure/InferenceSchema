@@ -51,7 +51,7 @@ class TestPandasParameterType(object):
         pandas_input = {'param': [{'datetime': datetime_str}]}
         datetime = pd.DataFrame(
             pd.DataFrame({'datetime': pd.Series([datetime_str], dtype='datetime64[ns]')})['datetime'])
-        result = pandas_datetime_func(pandas_input)
+        result = pandas_datetime_func(**pandas_input)
         assert_frame_equal(result, datetime)
 
 
