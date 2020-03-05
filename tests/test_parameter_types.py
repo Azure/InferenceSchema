@@ -8,7 +8,8 @@ import pandas as pd
 from pandas.util.testing import assert_frame_equal
 from pyspark.sql.session import SparkSession
 
-from .resources.decorated_function_samples import numpy_func, pandas_func, spark_func, standard_py_func
+from .resources.decorated_function_samples import numpy_func, pandas_func, pandas_datetime_func, spark_func,\
+    standard_py_func
 
 
 class TestNumpyParameterType(object):
@@ -44,6 +45,14 @@ class TestPandasParameterType(object):
         pandas_input = {'param': [{'name': 'Sara', 'age': '25'}]}
         result = pandas_func(**pandas_input)
         assert_frame_equal(result, age)
+
+    def test_pandas_timestamp_handling(self):
+        datetime_str = '2013-12-31 00:00:00,000000'
+        pandas_input = {'param': [{'datetime': datetime_str}]}
+        datetime = pd.DataFrame(
+            pd.DataFrame({'datetime': pd.Series([datetime_str], dtype='datetime64[ns]')})['datetime'])
+        result = pandas_datetime_func(pandas_input)
+        assert_frame_equal(result, datetime)
 
 
 class TestSparkParameterType(object):

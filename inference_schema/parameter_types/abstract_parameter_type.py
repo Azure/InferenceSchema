@@ -45,6 +45,18 @@ class AbstractParameterType(ABC):
 
     @classmethod
     def _timestamp_item_to_string(cls, date_item):
+        try:
+            from pandas import Timestamp
+
+            if type(date_item) is Timestamp:
+                return date_item.strftime("%Y-%m-%d %H:%M:%S,%f")
+            else:
+                return cls._datetime_item_to_string(date_item)
+        except ImportError:
+            return cls._datetime_item_to_string(date_item)
+
+    @classmethod
+    def _datetime_item_to_string(cls, date_item):
         return date_item.astype(dt.datetime).strftime("%Y-%m-%d %H:%M:%S,%f")
 
     @classmethod
