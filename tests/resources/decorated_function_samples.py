@@ -55,6 +55,23 @@ def pandas_func(param):
     return pd.DataFrame(param['age'])
 
 
+pandas_sample_timestamp_input = pd.DataFrame({'datetime': pd.Series(['2013-12-31T00:00:00.000Z'],
+                                                                    dtype='datetime64[ns]')})
+
+
+@input_schema('param', PandasParameterType(pandas_sample_timestamp_input))
+def pandas_datetime_func(param):
+    """
+
+    :param param:
+    :type param: pd.DataFrame
+    :return:
+    :rtype: pd.DataFrame
+    """
+    assert type(param) is pd.DataFrame
+    return pd.DataFrame(param['datetime'])
+
+
 spark_session = SparkSession.builder.getOrCreate()
 spark_input_data = pd.DataFrame({'name': ['Sarah', 'John'], 'age': [25, 26]})
 spark_sample_input = spark_session.createDataFrame(spark_input_data)
