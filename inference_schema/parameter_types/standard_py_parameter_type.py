@@ -104,7 +104,7 @@ class StandardPythonParameterType(AbstractParameterType):
         elif self.sample_data_type is list or self.sample_data_type is tuple:
             schema = self._get_swagger_for_list(self.sample_input)
         elif self.sample_data_type is dict:
-            schema = {"type": "object", "additionalProperties": {"type": "object"}, "example": self.sample_input}
+            schema = self._get_swagger_for_nested_dict(self.sample_input)
 
         # If we didn't match any type yet, try out best to fit this to an object
         if schema is None:
@@ -124,3 +124,20 @@ class StandardPythonParameterType(AbstractParameterType):
         for i in range(sample_size):
             sample.append(python_data[i])
         return {"type": "array", "items": item_swagger_type, "example": sample}
+
+
+    def _get_swagger_for_nested_dict(self, python_data, item_swagger_type={"type": "object"}):
+        nested_items = dict()
+        examples = dict()
+        required = []
+        for k, v in python_data.items():
+            required.append(k)
+            if issubclass(type(v), AbstractParameterType):
+                nested_items_swagger =  v.input_to_swagger()
+                nested_items[k] = nested_items_swagger
+                examples[k] = nested_items_swagger['example']
+            else:
+                nested_items[k] =  item_swagger_type
+        schema = {"type": "object", "required": required, "Properties": nested_items,
+                  "example": examples}
+        return schema
