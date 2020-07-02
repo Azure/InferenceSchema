@@ -133,7 +133,7 @@ class StandardPythonParameterType(AbstractParameterType):
         for k, v in python_data.items():
             required.append(k)
             if issubclass(type(v), AbstractParameterType):
-                nested_items_swagger =  v.input_to_swagger()
+                nested_items_swagger = v.input_to_swagger()
                 nested_items[k] = nested_items_swagger
                 examples[k] = nested_items_swagger['example']
             else:
