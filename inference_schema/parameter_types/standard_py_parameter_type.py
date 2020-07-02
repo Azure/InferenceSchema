@@ -125,7 +125,6 @@ class StandardPythonParameterType(AbstractParameterType):
             sample.append(python_data[i])
         return {"type": "array", "items": item_swagger_type, "example": sample}
 
-
     def _get_swagger_for_nested_dict(self, python_data, item_swagger_type={"type": "object"}):
         nested_items = dict()
         examples = dict()
@@ -137,7 +136,7 @@ class StandardPythonParameterType(AbstractParameterType):
                 nested_items[k] = nested_items_swagger
                 examples[k] = nested_items_swagger['example']
             else:
-                nested_items[k] =  item_swagger_type
+                nested_items[k] = item_swagger_type
         schema = {"type": "object", "required": required, "Properties": nested_items,
                   "example": examples}
         return schema
