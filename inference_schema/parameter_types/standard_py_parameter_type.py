@@ -18,13 +18,12 @@ class StandardPythonParameterType(AbstractParameterType):
     """
 
     def __init__(self, sample_input):
-        """
-        Construct the StandardPythonParameterType object.
-
-        :param sample_input:
-        :type sample_input:
-        """
         super(StandardPythonParameterType, self).__init__(sample_input)
+        self.sample_data_type_map = dict()
+        if self.sample_data_type is dict:
+            for k, v in self.sample_input.items():
+                if issubclass(type(v), AbstractParameterType):
+                    self.sample_data_type_map[k] = v
 
     def deserialize_input(self, input_data):
         """
@@ -43,7 +42,12 @@ class StandardPythonParameterType(AbstractParameterType):
             input_data = parser.parse(input_data).timetz()
         elif self.sample_data_type is bytearray or (sys.version_info[0] == 3 and self.sample_data_type is bytes):
             input_data = base64.b64decode(input_data.encode('utf-8'))
-
+        elif self.sample_data_type is dict:
+            deserialized_nested_items = {}
+            for k, v in input_data.items():
+                print(k, v)
+                deserialized_nested_items[k] = v.deserialize_input if issubclass(type(v), AbstractParameterType) else v
+            input_data = deserialized_nested_items
         if not isinstance(input_data, self.sample_data_type):
             raise ValueError("Invalid input data type to parse. Expected: {0} but got {1}".format(
                 self.sample_data_type, type(input_data)))

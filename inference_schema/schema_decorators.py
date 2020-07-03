@@ -44,7 +44,6 @@ def input_schema(param_name, param_type, convert_to_provided_type=True):
     def decorator_input(user_run, instance, args, kwargs):
         if convert_to_provided_type:
             args = list(args)
-
             if param_name not in kwargs.keys():
                 decorators = _get_decorators(user_run)
                 arg_names = inspect.getfullargspec(decorators[-1]).args
@@ -52,12 +51,9 @@ def input_schema(param_name, param_type, convert_to_provided_type=True):
                     raise Exception('Error, provided param_name "{}" '
                                     'is not in the decorated function.'.format(param_name))
                 param_position = arg_names.index(param_name)
-
-                if not isinstance(args[param_position], param_type.sample_data_type):
-                    args[param_position] = param_type.deserialize_input(args[param_position])
+                args[param_position] = _deserialize_input_parameter(args[param_position], param_type, param_name)
             else:
-                if not isinstance(kwargs[param_name], param_type.sample_data_type):
-                    kwargs[param_name] = param_type.deserialize_input(kwargs[param_name])
+                kwargs[param_name] = _deserialize_input_parameter(kwargs[param_name], param_type, param_name)
 
             args = tuple(args)
 
@@ -252,3 +248,19 @@ def _add_output_schema_to_global_schema_dictionary(base_func_name, schema):
         raise Exception('Error, output schema already defined for function: {}.'.format(base_func_name))
 
     __functions_schema__[base_func_name][OUTPUT_SCHEMA_ATTR] = schema
+
+
+def _deserialize_input_parameter(input_parameter, param_type, param_name):
+    sample_data_type = param_type.sample_data_type
+    if sample_data_type is dict:
+        if not isinstance(input_parameter, sample_data_type):
+            raise Exception('Invalid input format "{}": expected a dict'.format(param_name))
+        sample_data_type_map = param_type.sample_data_type_map
+        for k, v in sample_data_type_map.items():
+            if k not in input_parameter:
+                raise Exception('Invalid input: expected key "{1}" in "{0}"'.format(param_name, k))
+            input_parameter[k] = _deserialize_input_parameter(input_parameter[k], v, k)
+    else:
+        if not isinstance(input_parameter, sample_data_type):
+            input_parameter = param_type.deserialize_input(input_parameter)
+    return input_parameter
