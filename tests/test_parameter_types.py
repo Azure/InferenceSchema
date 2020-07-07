@@ -9,7 +9,7 @@ from pandas.util.testing import assert_frame_equal
 from pyspark.sql.session import SparkSession
 
 from .resources.decorated_function_samples import numpy_func, pandas_func, pandas_datetime_func, spark_func,\
-    standard_py_func
+    standard_py_func, nested_func
 
 
 class TestNumpyParameterType(object):
@@ -86,3 +86,24 @@ class TestStandardPythonParameterType(object):
         standard_input = {'param': {'name': ['Sarah'], 'age': [25]}}
         result = standard_py_func(**standard_input)
         assert age == result
+
+
+class TestNestedType(object):
+
+    def test_nested_handling(self):
+        pd_data = {'name': ['Sarah'], 'age': [25]}
+        np_data = [('Sarah', (8.0, 7.0))]
+        std_data = {'name': ['Sarah'], 'age': [25]}
+        nested_input_data = {'input1': pd_data,
+                             'input2': np_data,
+                             'input3': std_data,
+                             'input0': 0}
+        result = nested_func(nested_input_data)
+        assert all(key in result.keys() for key in ('output1', 'output2', 'output3'))
+        np_result = np.array(np_data, dtype=np.dtype([('name', np.unicode_, 16),
+                                                      ('grades', np.float64, (2,))]))['grades']
+        pd_result = pd.DataFrame(pd.DataFrame(pd_data)['age'])
+        std_result = {'age': [25]}
+        assert_frame_equal(pd_result, result['output1'])
+        assert np.array_equal(np_result, result['output2'])
+        assert std_result == result['output3']

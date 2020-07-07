@@ -102,3 +102,45 @@ standard_sample_output = {'age': [25, 26]}
 def standard_py_func(param):
     assert type(param) is dict
     return {'age': param['age']}
+
+
+nested_sample_input = StandardPythonParameterType(
+    {'input1': PandasParameterType(pandas_sample_input),
+     'input2': NumpyParameterType(numpy_sample_input),
+     'input3': StandardPythonParameterType(standard_sample_input),
+     'input0': 0}
+)
+nested_input_data = {'input1': pandas_input_data,
+                     'input2': numpy_input_data,
+                     'input3': standard_sample_input,
+                     'input0': 0}
+nested_sample_output = StandardPythonParameterType(
+    {'output1': PandasParameterType(pandas_sample_output),
+     'output2': NumpyParameterType(numpy_sample_output),
+     'output3': StandardPythonParameterType(standard_sample_output),
+     'output0': 0}
+)
+nested_output_data = {'output1': pandas_output_data,
+                      'output2': numpy_output_data,
+                      'output3': standard_sample_output,
+                      'output0': 0}
+
+
+@input_schema('param', nested_sample_input)
+@output_schema(nested_sample_output)
+def nested_func(param):
+    """
+
+    :param param:
+    :type param: pd.DataFrame
+    :return:
+    :rtype: pd.DataFrame
+    """
+    assert type(param) is dict
+    assert 'input1' in param.keys() and type(param['input1']) is pd.DataFrame
+    assert 'input2' in param.keys() and type(param['input2']) is np.ndarray
+    assert 'input3' in param.keys() and type(param['input3']) is dict
+    output1 = pd.DataFrame(param['input1']['age'])
+    output2 = param['input2']['grades']
+    output3 = {'age': param['input3']['age']}
+    return {'output1': output1, 'output2': output2, 'output3': output3}
