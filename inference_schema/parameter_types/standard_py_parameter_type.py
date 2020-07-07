@@ -15,15 +15,22 @@ from ._constants import DATE_FORMAT, DATETIME_FORMAT, TIME_FORMAT, ERR_PYTHON_DA
 class StandardPythonParameterType(AbstractParameterType):
     """
     Class used to specify an expected parameter as a standard Python type.
+    Map and list are used for handling nested inputs, they are non-empty only if there are
+    non-trivial items(item of type as subclass of AbstractParameterType)
     """
 
     def __init__(self, sample_input):
         super(StandardPythonParameterType, self).__init__(sample_input)
         self.sample_data_type_map = dict()
+        self.sample_data_type_list = []
         if self.sample_data_type is dict:
             for k, v in self.sample_input.items():
                 if issubclass(type(v), AbstractParameterType):
                     self.sample_data_type_map[k] = v
+        elif self.sample_data_type is list or self.sample_data_type is tuple:
+            for data in self.sample_input:
+                if issubclass(type(data), AbstractParameterType):
+                    self.sample_data_type_list.append(data)
 
     def deserialize_input(self, input_data):
         """
@@ -42,12 +49,6 @@ class StandardPythonParameterType(AbstractParameterType):
             input_data = parser.parse(input_data).timetz()
         elif self.sample_data_type is bytearray or (sys.version_info[0] == 3 and self.sample_data_type is bytes):
             input_data = base64.b64decode(input_data.encode('utf-8'))
-        elif self.sample_data_type is dict:
-            deserialized_nested_items = {}
-            for k, v in input_data.items():
-                print(k, v)
-                deserialized_nested_items[k] = v.deserialize_input if issubclass(type(v), AbstractParameterType) else v
-            input_data = deserialized_nested_items
         if not isinstance(input_data, self.sample_data_type):
             raise ValueError("Invalid input data type to parse. Expected: {0} but got {1}".format(
                 self.sample_data_type, type(input_data)))
@@ -109,11 +110,9 @@ class StandardPythonParameterType(AbstractParameterType):
             schema = self._get_swagger_for_list(self.sample_input)
         elif self.sample_data_type is dict:
             schema = self._get_swagger_for_nested_dict(self.sample_input)
-
         # If we didn't match any type yet, try out best to fit this to an object
         if schema is None:
             schema = {"type": "object", "example": self.sample_input}
-
         # ensure the schema is JSON serializable
         try:
             json.dumps(schema)
@@ -122,12 +121,19 @@ class StandardPythonParameterType(AbstractParameterType):
 
         return schema
 
-    def _get_swagger_for_list(self, python_data, item_swagger_type={"type": "object"}):
-        sample_size = len(python_data)
-        sample = []
-        for i in range(sample_size):
-            sample.append(python_data[i])
-        return {"type": "array", "items": item_swagger_type, "example": sample}
+    def _get_swagger_for_list(self, python_data):
+        schema = {"type": "array", "items": {"type": "object"}, "example": python_data}
+        if not python_data:
+            return schema
+        item_type = type(python_data[0])
+        for data in python_data:
+            if type(data) != item_type:
+                raise Exception('Error, OpenAPI 2.0 does not support mixed type in array.')
+        if issubclass(item_type, AbstractParameterType):
+            nested_item_swagger = python_data[0].input_to_swagger()
+            schema = {"type": "array", "items": nested_item_swagger,
+                      "example": nested_item_swagger['example']}
+        return schema
 
     def _get_swagger_for_nested_dict(self, python_data):
         nested_items = dict()

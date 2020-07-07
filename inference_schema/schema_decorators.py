@@ -44,6 +44,7 @@ def input_schema(param_name, param_type, convert_to_provided_type=True):
     def decorator_input(user_run, instance, args, kwargs):
         if convert_to_provided_type:
             args = list(args)
+
             if param_name not in kwargs.keys():
                 decorators = _get_decorators(user_run)
                 arg_names = inspect.getfullargspec(decorators[-1]).args
@@ -51,9 +52,9 @@ def input_schema(param_name, param_type, convert_to_provided_type=True):
                     raise Exception('Error, provided param_name "{}" '
                                     'is not in the decorated function.'.format(param_name))
                 param_position = arg_names.index(param_name)
-                args[param_position] = _deserialize_input_parameter(args[param_position], param_type, param_name)
+                args[param_position] = _deserialize_input_argument(args[param_position], param_type, param_name)
             else:
-                kwargs[param_name] = _deserialize_input_parameter(kwargs[param_name], param_type, param_name)
+                kwargs[param_name] = _deserialize_input_argument(kwargs[param_name], param_type, param_name)
 
             args = tuple(args)
 
@@ -250,17 +251,36 @@ def _add_output_schema_to_global_schema_dictionary(base_func_name, schema):
     __functions_schema__[base_func_name][OUTPUT_SCHEMA_ATTR] = schema
 
 
-def _deserialize_input_parameter(input_parameter, param_type, param_name):
+def _deserialize_input_argument(input_data, param_type, param_name):
+    """
+    function to deserialize / convert input to exact type described in schema
+
+    :param input_data:
+    :param param_type: subclass of AbstractParameterType
+    :param param_name:
+    :return:
+    """
     sample_data_type = param_type.sample_data_type
     if sample_data_type is dict:
-        if not isinstance(input_parameter, sample_data_type):
-            raise Exception('Invalid input format "{}": expected a dict'.format(param_name))
+        if not isinstance(input_data, dict):
+            raise ValueError("Invalid input data type to parse. Expected: {0} but got {1}".format(
+                sample_data_type, type(input_data)))
         sample_data_type_map = param_type.sample_data_type_map
+        # parameters other than subclass of AbstractParameterType will not be handled
         for k, v in sample_data_type_map.items():
-            if k not in input_parameter:
-                raise Exception('Invalid input: expected key "{1}" in "{0}"'.format(param_name, k))
-            input_parameter[k] = _deserialize_input_parameter(input_parameter[k], v, k)
+            if k not in input_data.keys():
+                raise Exception('Invalid input. Expected: key "{0}" in "{1}"'.format(k, param_name))
+            input_data[k] = _deserialize_input_argument(input_data[k], v, k)
+    elif sample_data_type in (list, tuple):
+        sample_data_type_list = param_type.sample_data_type_list
+        if not isinstance(input_data, list) and not isinstance(input_data, tuple):
+            raise ValueError("Invalid input data type to parse. Expected: {0} but got {1}".format(
+                sample_data_type, type(input_data)))
+        # OpenAPI 2.0 does not support mixed type in array
+        if len(sample_data_type_list):
+            input_data = [_deserialize_input_argument(x, sample_data_type_list[0], param_name) for x in input_data]
     else:
-        if not isinstance(input_parameter, sample_data_type):
-            input_parameter = param_type.deserialize_input(input_parameter)
-    return input_parameter
+        # non-nested input will be deserialized
+        if not isinstance(input_data, sample_data_type):
+            input_data = param_type.deserialize_input(input_data)
+    return input_data
