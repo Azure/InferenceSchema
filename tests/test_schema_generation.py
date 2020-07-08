@@ -7,6 +7,7 @@ import os
 
 from inference_schema.schema_util import get_input_schema, get_output_schema
 from pkg_resources import resource_string
+from unittest import TestCase
 
 from .resources.decorated_function_samples import numpy_func, pandas_func, spark_func, standard_py_func, nested_func
 
@@ -55,12 +56,12 @@ class TestStandardPythonSchemaGeneration(object):
         assert get_output_schema(standard_py_func) == self.standard_sample_output_schema
 
 
-class TestNestedSchemaGeneration(object):
+class TestNestedSchemaGeneration(TestCase):
     nested_sample_input_schema = json.loads(
         resource_string(__name__, os.path.join('resources', 'sample_nested_input_schema.json')).decode('ascii'))
     nested_sample_output_schema = json.loads(
         resource_string(__name__, os.path.join('resources', 'sample_nested_output_schema.json')).decode('ascii'))
 
     def test_nested_handling(self):
-        assert get_input_schema(nested_func) == self.nested_sample_input_schema
-        assert get_output_schema(nested_func) == self.nested_sample_output_schema
+        self.assertCountEqual(get_input_schema(nested_func), self.nested_sample_input_schema)
+        self.assertCountEqual(get_output_schema(nested_func), self.nested_sample_output_schema)
