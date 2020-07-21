@@ -276,7 +276,7 @@ def _deserialize_input_argument(input_data, param_type, param_name):
         if not isinstance(input_data, list) and not isinstance(input_data, tuple):
             raise ValueError("Invalid input data type to parse. Expected: {0} but got {1}".format(
                 sample_data_type, type(input_data)))
-        # OpenAPI 2.0 does not support mixed type in array
+        # OpenAPI 2.x does not support mixed type in array
         if len(sample_data_type_list):
             input_data = [_deserialize_input_argument(x, sample_data_type_list[0], param_name) for x in input_data]
     else:
