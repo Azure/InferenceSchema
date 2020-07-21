@@ -104,6 +104,7 @@ def standard_py_func(param):
     return {'age': param['age']}
 
 
+# input0 are not wrapped by any ParameterTypes hence will be neglected
 nested_sample_input = StandardPythonParameterType(
     {'input1': PandasParameterType(pandas_sample_input),
      'input2': NumpyParameterType(numpy_sample_input),
