@@ -15,11 +15,19 @@ from ._constants import DATE_FORMAT, DATETIME_FORMAT, TIME_FORMAT, ERR_PYTHON_DA
 class StandardPythonParameterType(AbstractParameterType):
     """
     Class used to specify an expected parameter as a standard Python type.
-    Map and list are used for handling nested inputs, they are non-empty only if there are
-    non-trivial items(item of type as subclass of AbstractParameterType)
     """
 
     def __init__(self, sample_input):
+        """
+        Construct the StandardPythonParameterType object. Keep nested items if and only if they are of subtype
+        of AbstractParameterType. Support nested dict or list
+
+        - sample_data_type_map: keep all valid items as a dict
+        - sample_data_type_list: keep all valid items as a list
+
+        :param sample_input:
+        :type sample_input:
+        """
         super(StandardPythonParameterType, self).__init__(sample_input)
         self.sample_data_type_map = dict()
         self.sample_data_type_list = []
@@ -128,7 +136,7 @@ class StandardPythonParameterType(AbstractParameterType):
         item_type = type(python_data[0])
         for data in python_data:
             if type(data) != item_type:
-                raise Exception('Error, OpenAPI 2.0 does not support mixed type in array.')
+                raise Exception('Error, OpenAPI 2.x does not support mixed type in array.')
         if issubclass(item_type, AbstractParameterType):
             nested_item_swagger = python_data[0].input_to_swagger()
             schema = {"type": "array", "items": nested_item_swagger,
