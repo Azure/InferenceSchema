@@ -140,7 +140,7 @@ class StandardPythonParameterType(AbstractParameterType):
         if issubclass(item_type, AbstractParameterType):
             nested_item_swagger = python_data[0].input_to_swagger()
             schema = {"type": "array", "items": nested_item_swagger,
-                      "example": nested_item_swagger['example']}
+                      "example": [nested_item_swagger['example']]}
         return schema
 
     def _get_swagger_for_nested_dict(self, python_data):
