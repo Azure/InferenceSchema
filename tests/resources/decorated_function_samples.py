@@ -138,10 +138,11 @@ def nested_func(param):
     :rtype: pd.DataFrame
     """
     assert type(param) is dict
+    assert 'input0' in param.keys()
     assert 'input1' in param.keys() and type(param['input1']) is pd.DataFrame
     assert 'input2' in param.keys() and type(param['input2']) is np.ndarray
     assert 'input3' in param.keys() and type(param['input3']) is dict
     output1 = pd.DataFrame(param['input1']['age'])
     output2 = param['input2']['grades']
     output3 = {'age': param['input3']['age']}
-    return {'output1': output1, 'output2': output2, 'output3': output3}
+    return {'output0': param['input0'], 'output1': output1, 'output2': output2, 'output3': output3}

@@ -99,11 +99,12 @@ class TestNestedType(object):
                              'input3': std_data,
                              'input0': 0}
         result = nested_func(nested_input_data)
-        assert all(key in result.keys() for key in ('output1', 'output2', 'output3'))
+        assert all(key in result.keys() for key in ('output0', 'output1', 'output2', 'output3'))
         np_result = np.array(np_data, dtype=np.dtype([('name', np.unicode_, 16),
                                                       ('grades', np.float64, (2,))]))['grades']
         pd_result = pd.DataFrame(pd.DataFrame(pd_data)['age'])
         std_result = {'age': [25]}
-        assert_frame_equal(pd_result, result['output1'])
-        assert np.array_equal(np_result, result['output2'])
-        assert std_result == result['output3']
+        assert result['output0'] == 0
+        assert_frame_equal(result['output1'], pd_result)
+        assert np.array_equal(result['output2'], np_result)
+        assert result['output3'] == std_result
