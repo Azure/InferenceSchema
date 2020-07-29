@@ -19,11 +19,11 @@ class StandardPythonParameterType(AbstractParameterType):
 
     def __init__(self, sample_input):
         """
-        Construct the StandardPythonParameterType object. Keep nested items if and only if they are of subtype
-        of AbstractParameterType. Support nested dict or list
+        Construct the StandardPythonParameterType object. Keep items if they are of subtype
+        of AbstractParameterType(wrapped item). Support nested dict or list
 
-        - sample_data_type_map: keep all valid items as a dict
-        - sample_data_type_list: keep all valid items as a list
+        - sample_data_type_map: keep wrapped items as a dict
+        - sample_data_type_list: keep wrapped items as a list
 
         :param sample_input:
         :type sample_input:
@@ -148,11 +148,14 @@ class StandardPythonParameterType(AbstractParameterType):
         examples = dict()
         required = []
         for k, v in python_data.items():
+            required.append(k)
             if issubclass(type(v), AbstractParameterType):
-                required.append(k)
                 nested_items_swagger = v.input_to_swagger()
                 nested_items[k] = nested_items_swagger
                 examples[k] = nested_items_swagger["example"]
+            else:
+                nested_items[k] = {'type': 'object'}
+                examples[k] = v
         if required:
             schema = {"type": "object", "required": required, "properties": nested_items,
                       "example": examples}
