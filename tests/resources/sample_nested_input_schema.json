@@ -86,7 +86,7 @@
           }
         },
         "input0": {
-              'type': 'object'
+              "type": "object"
             }
       }
     }
