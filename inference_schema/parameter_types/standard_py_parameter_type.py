@@ -147,16 +147,18 @@ class StandardPythonParameterType(AbstractParameterType):
         nested_items = dict()
         examples = dict()
         required = []
+        has_wrapped_items = False
         for k, v in python_data.items():
             required.append(k)
             if issubclass(type(v), AbstractParameterType):
+                has_wrapped_items = True
                 nested_items_swagger = v.input_to_swagger()
                 nested_items[k] = nested_items_swagger
                 examples[k] = nested_items_swagger["example"]
             else:
                 nested_items[k] = {'type': 'object'}
                 examples[k] = v
-        if required:
+        if has_wrapped_items:
             schema = {"type": "object", "required": required, "properties": nested_items,
                       "example": examples}
         else:
