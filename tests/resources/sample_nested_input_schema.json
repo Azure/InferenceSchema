@@ -6,7 +6,8 @@
       "required": [
         "input1",
         "input2",
-        "input3"
+        "input3",
+        "input0"
       ],
       "properties": {
         "input1": {
@@ -83,7 +84,10 @@
               26
             ]
           }
-        }
+        },
+        "input0": {
+              'type': 'object'
+            }
       }
     }
   },
@@ -124,7 +128,8 @@
           25,
           26
         ]
-      }
+      },
+      "input0": 0
     }
   }
 }
