@@ -3,7 +3,8 @@
   "required": [
     "output1",
     "output2",
-    "output3"
+    "output3",
+    "output0"
   ],
   "properties": {
     "output1": {
@@ -63,9 +64,14 @@
           26
         ]
       }
+    },
+    "output0": {
+      "type": "object"
     }
   },
   "example": {
+    "output0":
+            0,
     "output1": [
       {
         "age": 25
