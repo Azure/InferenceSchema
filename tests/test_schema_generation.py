@@ -5,9 +5,9 @@
 import json
 import os
 
-from inference_schema.schema_util import get_input_schema, get_output_schema
 from pkg_resources import resource_string
 
+from inference_schema.schema_util import get_input_schema, get_output_schema
 from .resources.decorated_function_samples import numpy_func, pandas_func, spark_func, standard_py_func, nested_func
 from .resources.utils import ordered
 
@@ -63,9 +63,5 @@ class TestNestedSchemaGeneration(object):
         resource_string(__name__, os.path.join('resources', 'sample_nested_output_schema.json')).decode('ascii'))
 
     def test_nested_handling(self):
-        j1 = json.dumps(ordered(get_input_schema(nested_func)))
-        j2 = json.dumps(ordered(get_output_schema(nested_func)))
-        sample_j1 = json.dumps(ordered(self.nested_sample_input_schema))
-        sample_j2 = json.dumps((ordered(self.nested_sample_output_schema)))
-        assert j1 == sample_j1
-        assert j2 == sample_j2
+        assert ordered(get_input_schema(nested_func)) == ordered(self.nested_sample_input_schema)
+        assert ordered(get_output_schema(nested_func)) == ordered(self.nested_sample_output_schema)
