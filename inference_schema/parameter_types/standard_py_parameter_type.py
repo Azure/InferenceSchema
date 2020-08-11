@@ -19,12 +19,26 @@ class StandardPythonParameterType(AbstractParameterType):
 
     def __init__(self, sample_input):
         """
-        Construct the StandardPythonParameterType object.
+        Construct the StandardPythonParameterType object. Keep items if they are of subtype
+        of AbstractParameterType(wrapped item). Support nested dict or list
+
+        - sample_data_type_map: keep wrapped items as a dict
+        - sample_data_type_list: keep wrapped items as a list
 
         :param sample_input:
         :type sample_input:
         """
         super(StandardPythonParameterType, self).__init__(sample_input)
+        self.sample_data_type_map = dict()
+        self.sample_data_type_list = []
+        if self.sample_data_type is dict:
+            for k, v in self.sample_input.items():
+                if issubclass(type(v), AbstractParameterType):
+                    self.sample_data_type_map[k] = v
+        elif self.sample_data_type is list or self.sample_data_type is tuple:
+            for data in self.sample_input:
+                if issubclass(type(data), AbstractParameterType):
+                    self.sample_data_type_list.append(data)
 
     def deserialize_input(self, input_data):
         """
@@ -43,7 +57,6 @@ class StandardPythonParameterType(AbstractParameterType):
             input_data = parser.parse(input_data).timetz()
         elif self.sample_data_type is bytearray or (sys.version_info[0] == 3 and self.sample_data_type is bytes):
             input_data = base64.b64decode(input_data.encode('utf-8'))
-
         if not isinstance(input_data, self.sample_data_type):
             raise ValueError("Invalid input data type to parse. Expected: {0} but got {1}".format(
                 self.sample_data_type, type(input_data)))
@@ -104,12 +117,10 @@ class StandardPythonParameterType(AbstractParameterType):
         elif self.sample_data_type is list or self.sample_data_type is tuple:
             schema = self._get_swagger_for_list(self.sample_input)
         elif self.sample_data_type is dict:
-            schema = {"type": "object", "additionalProperties": {"type": "object"}, "example": self.sample_input}
-
+            schema = self._get_swagger_for_nested_dict(self.sample_input)
         # If we didn't match any type yet, try out best to fit this to an object
         if schema is None:
             schema = {"type": "object", "example": self.sample_input}
-
         # ensure the schema is JSON serializable
         try:
             json.dumps(schema)
@@ -118,9 +129,39 @@ class StandardPythonParameterType(AbstractParameterType):
 
         return schema
 
-    def _get_swagger_for_list(self, python_data, item_swagger_type={"type": "object"}):
-        sample_size = len(python_data)
-        sample = []
-        for i in range(sample_size):
-            sample.append(python_data[i])
-        return {"type": "array", "items": item_swagger_type, "example": sample}
+    def _get_swagger_for_list(self, python_data):
+        schema = {"type": "array", "items": {"type": "object"}, "example": python_data}
+        if not python_data:
+            return schema
+        item_type = type(python_data[0])
+        for data in python_data:
+            if type(data) != item_type:
+                raise Exception('Error, OpenAPI 2.x does not support mixed type in array.')
+        if issubclass(item_type, AbstractParameterType):
+            nested_item_swagger = python_data[0].input_to_swagger()
+            schema = {"type": "array", "items": nested_item_swagger,
+                      "example": [nested_item_swagger['example']]}
+        return schema
+
+    def _get_swagger_for_nested_dict(self, python_data):
+        nested_items = dict()
+        examples = dict()
+        required = []
+        has_wrapped_items = False
+        for k, v in python_data.items():
+            required.append(k)
+            if issubclass(type(v), AbstractParameterType):
+                has_wrapped_items = True
+                nested_items_swagger = v.input_to_swagger()
+                nested_items[k] = nested_items_swagger
+                examples[k] = nested_items_swagger["example"]
+            else:
+                nested_items[k] = {'type': 'object'}
+                examples[k] = v
+        if has_wrapped_items:
+            schema = {"type": "object", "required": required, "properties": nested_items,
+                      "example": examples}
+        else:
+            schema = {"type": "object", "additionalProperties": {'type': 'object'},
+                      "example": python_data}
+        return schema

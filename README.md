@@ -20,7 +20,8 @@ be nested with each other and with other decorators as desired.
 
 The package provides support for generating schema based on example input provided to the input and output decorators.
 This is intended to introduce a uniform conversion between a JSON format that can be embedded into a swagger
-specification and the in memory Python objects which may or may not have a built-in JSON representation.
+specification and the in memory Python objects which may or may not have a built-in JSON representation. Currently 
+it only supports OpenAPI 2.x
 
 ### Type Conversion
 
@@ -36,7 +37,9 @@ of type conversion.
 Currently the package supports generation for Numpy, Pandas, and Spark types, as well as standard Python types. These
 types are defined [here](inference_schema/parameter_types). Custom types can be implemented by extending the 
 [AbstractParameterType](inference_schema/parameter_types/abstract_parameter_type.py) and overriding the
-`deserialize_input` and `input_to_swagger` methods.
+`deserialize_input` and `input_to_swagger` methods. It also supports nested dict or list inputs in case detailed
+description inside or data type conversion is desired. The item inside dict or list will be treated as a valid parameter
+if and only if they are of subtype of `AbstractParameterType`, which is an iterative definition.
 
 ## Samples
 

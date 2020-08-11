@@ -1,0 +1,100 @@
+{
+  "type": "object",
+  "required": [
+    "output1",
+    "output2",
+    "output3",
+    "output0"
+  ],
+  "properties": {
+    "output1": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "age": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "example": [
+        {
+          "age": 25
+        },
+        {
+          "age": 26
+        }
+      ]
+    },
+    "output2": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "f0": {
+            "type": "number",
+            "format": "double"
+          },
+          "f1": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "example": [
+        {
+          "f0": 8.0,
+          "f1": 7.0
+        },
+        {
+          "f0": 6.0,
+          "f1": 7.0
+        }
+      ]
+    },
+    "output3": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      },
+      "example": {
+        "age": [
+          25,
+          26
+        ]
+      }
+    },
+    "output0": {
+      "type": "object"
+    }
+  },
+  "example": {
+    "output0":
+            0,
+    "output1": [
+      {
+        "age": 25
+      },
+      {
+        "age": 26
+      }
+    ],
+    "output2": [
+      {
+        "f0": 8.0,
+        "f1": 7.0
+      },
+      {
+        "f0": 6.0,
+        "f1": 7.0
+      }
+    ],
+    "output3": {
+      "age": [
+        25,
+        26
+      ]
+    }
+  }
+}
