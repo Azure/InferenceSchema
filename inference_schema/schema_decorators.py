@@ -19,7 +19,7 @@ def input_schema(param_name, param_type, convert_to_provided_type=True):
     and will also generates a swagger representation of that input, that can
     be used on a swagger api document.
 
-    If 'conver_to_provided_type' is True, and the function receive as argument for
+    If 'convert_to_provided_type' is True, and the function receive as argument for
     that parameter a parsed json representation of the type (in the format specified
     in the swagger schema generated), then the argument will be converted to the
     expected type.
