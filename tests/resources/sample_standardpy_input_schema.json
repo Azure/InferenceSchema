@@ -11,7 +11,7 @@
 	"example": {
 		"param": {
 			"name": ["Sarah", "John"],
-			"age": [25, 26]
+			"state": ["WA", "CA"]
 		}
 	}
 }

@@ -12,18 +12,17 @@
       "items": {
         "type": "object",
         "properties": {
-          "age": {
-            "type": "integer",
-            "format": "int64"
+          "state": {
+            "type": "string"
           }
         }
       },
       "example": [
         {
-          "age": 25
+          "state": "WA"
         },
         {
-          "age": 26
+          "state": "CA"
         }
       ]
     },
@@ -59,9 +58,9 @@
         "type": "object"
       },
       "example": {
-        "age": [
-          25,
-          26
+        "state": [
+          "WA",
+          "CA"
         ]
       }
     },
@@ -74,10 +73,10 @@
             0,
     "output1": [
       {
-        "age": 25
+        "state": "WA"
       },
       {
-        "age": 26
+        "state": "CA"
       }
     ],
     "output2": [
@@ -91,9 +90,9 @@
       }
     ],
     "output3": {
-      "age": [
-        25,
-        26
+      "state": [
+        "WA",
+        "CA"
       ]
     }
   }

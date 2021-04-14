@@ -18,20 +18,19 @@
               "name": {
                 "type": "string"
               },
-              "age": {
-                "type": "integer",
-                "format": "int64"
+              "state": {
+                "type": "string"
               }
             }
           },
           "example": [
             {
               "name": "Sarah",
-              "age": 25
+              "state": "WA"
             },
             {
               "name": "John",
-              "age": 26
+              "state": "CA"
             }
           ]
         },
@@ -79,9 +78,9 @@
               "Sarah",
               "John"
             ],
-            "age": [
-              25,
-              26
+            "state": [
+              "WA",
+              "CA"
             ]
           }
         },
@@ -96,11 +95,11 @@
       "input1": [
         {
           "name": "Sarah",
-          "age": 25
+          "state": "WA"
         },
         {
           "name": "John",
-          "age": 26
+          "state": "CA"
         }
       ],
       "input2": [
@@ -124,9 +123,9 @@
           "Sarah",
           "John"
         ],
-        "age": [
-          25,
-          26
+        "state": [
+          "WA",
+          "CA"
         ]
       },
       "input0": 0

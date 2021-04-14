@@ -4,15 +4,14 @@
 		"type": "object",
 		"properties": {
 			"age": {
-				"type": "integer",
-				"format": "int64"
+				"type": "string"
 			}
 		}
 	},
 	"example": [{
-			"age": 25
+			"state": "WA"
 		}, {
-			"age": 26
+			"state": "CA"
 		}
 	]
 }

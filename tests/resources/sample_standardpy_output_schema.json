@@ -4,6 +4,6 @@
 		"type": "object"
 	},
 	"example": {
-		"age": [25, 26]
+		"state": ["WA", "CA"]
 	}
 }
