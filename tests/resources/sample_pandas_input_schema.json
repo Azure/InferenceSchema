@@ -12,7 +12,8 @@
 					"state": {
 						"type": "string"
 					}
-				}
+				},
+				"required": ["name", "state"]
 			}
 		}
 	},

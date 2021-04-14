@@ -1,134 +1,91 @@
 {
-  "type": "object",
-  "properties": {
-    "param": {
-      "type": "object",
-      "required": [
-        "input1",
-        "input2",
-        "input3",
-        "input0"
-      ],
-      "properties": {
-        "input1": {
-          "type": "array",
-          "items": {
+    "type": "object",
+    "properties": {
+        "param": {
             "type": "object",
+            "required": ["input1", "input2", "input3", "input0"],
             "properties": {
-              "name": {
-                "type": "string"
-              },
-              "state": {
-                "type": "string"
-              }
-            }
-          },
-          "example": [
-            {
-              "name": "Sarah",
-              "state": "WA"
-            },
-            {
-              "name": "John",
-              "state": "CA"
-            }
-          ]
-        },
-        "input2": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "grades": {
-                "type": "array",
-                "items": {
-                  "type": "number",
-                  "format": "double"
+                "input1": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["name", "state"],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "state": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "input2": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "grades": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number",
+                                    "format": "double"
+                                }
+                            }
+                        }
+                    }
+                },
+                "input3": {
+                    "type": "object",
+                    "required": ["name", "state"],
+                    "properties": {
+                        "name": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "state": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "input0": {
+                    "type": "integer",
+                    "format": "int64"
                 }
-              }
             }
-          },
-          "example": [
-            {
-              "name": "Sarah",
-              "grades": [
-                8.0,
-                7.0
-              ]
-            },
-            {
-              "name": "John",
-              "grades": [
-                6.0,
-                7.0
-              ]
-            }
-          ]
-        },
-        "input3": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object"
-          },
-          "example": {
-            "name": [
-              "Sarah",
-              "John"
+        }
+    },
+    "example": {
+        "param": {
+            "input1": [{
+                    "name": "Sarah",
+                    "state": "WA"
+                }, {
+                    "name": "John",
+                    "state": "CA"
+                }
             ],
-            "state": [
-              "WA",
-              "CA"
-            ]
-          }
-        },
-        "input0": {
-              "type": "object"
-            }
-      }
-    }
-  },
-  "example": {
-    "param": {
-      "input1": [
-        {
-          "name": "Sarah",
-          "state": "WA"
-        },
-        {
-          "name": "John",
-          "state": "CA"
+            "input2": [{
+                    "name": "Sarah",
+                    "grades": [8.0, 7.0]
+                }, {
+                    "name": "John",
+                    "grades": [6.0, 7.0]
+                }
+            ],
+            "input3": {
+                "name": ["Sarah", "John"],
+                "state": ["WA", "CA"]
+            },
+            "input0": 0
         }
-      ],
-      "input2": [
-        {
-          "name": "Sarah",
-          "grades": [
-            8.0,
-            7.0
-          ]
-        },
-        {
-          "name": "John",
-          "grades": [
-            6.0,
-            7.0
-          ]
-        }
-      ],
-      "input3": {
-        "name": [
-          "Sarah",
-          "John"
-        ],
-        "state": [
-          "WA",
-          "CA"
-        ]
-      },
-      "input0": 0
     }
-  }
 }

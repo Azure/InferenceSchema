@@ -1,17 +1,29 @@
 {
-	"type": "object",
-	"properties": {
-		"param": {
-			"type": "object",
-			"additionalProperties": {
-				"type": "object"
-			}
-		}
-	},
-	"example": {
-		"param": {
-			"name": ["Sarah", "John"],
-			"state": ["WA", "CA"]
-		}
-	}
+    "type": "object",
+    "properties": {
+        "param": {
+            "properties": {
+                "name": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "state": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": ["name", "state"],
+            "type": "object"
+        }
+    },
+    "example": {
+        "param": {
+            "name": ["Sarah", "John"],
+            "state": ["WA", "CA"]
+        }
+    }
 }

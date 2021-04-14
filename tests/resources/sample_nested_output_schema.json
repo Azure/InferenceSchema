@@ -1,99 +1,70 @@
 {
-  "type": "object",
-  "required": [
-    "output1",
-    "output2",
-    "output3",
-    "output0"
-  ],
-  "properties": {
-    "output1": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "state": {
-            "type": "string"
-          }
-        }
-      },
-      "example": [
-        {
-          "state": "WA"
+    "type": "object",
+    "required": ["output1", "output2", "output3", "output0"],
+    "properties": {
+        "output1": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["state"],
+                "properties": {
+                    "state": {
+                        "type": "string"
+                    }
+                }
+            }
         },
-        {
-          "state": "CA"
-        }
-      ]
-    },
-    "output2": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "f0": {
-            "type": "number",
-            "format": "double"
-          },
-          "f1": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "example": [
-        {
-          "f0": 8.0,
-          "f1": 7.0
+        "output2": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "f0": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "f1": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                }
+            }
         },
-        {
-          "f0": 6.0,
-          "f1": 7.0
+        "output3": {
+            "type": "object",
+            "required": ["state"],
+            "properties": {
+                "state": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "output0": {
+            "type": "integer",
+            "format": "int64"
         }
-      ]
     },
-    "output3": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "object"
-      },
-      "example": {
-        "state": [
-          "WA",
-          "CA"
-        ]
-      }
-    },
-    "output0": {
-      "type": "object"
+    "example": {
+        "output1": [{
+                "state": "WA"
+            }, {
+                "state": "CA"
+            }
+        ],
+        "output2": [{
+                "f0": 8.0,
+                "f1": 7.0
+            }, {
+                "f0": 6.0,
+                "f1": 7.0
+            }
+        ],
+        "output3": {
+            "state": ["WA", "CA"]
+        },
+        "output0": 0
     }
-  },
-  "example": {
-    "output0":
-            0,
-    "output1": [
-      {
-        "state": "WA"
-      },
-      {
-        "state": "CA"
-      }
-    ],
-    "output2": [
-      {
-        "f0": 8.0,
-        "f1": 7.0
-      },
-      {
-        "f0": 6.0,
-        "f1": 7.0
-      }
-    ],
-    "output3": {
-      "state": [
-        "WA",
-        "CA"
-      ]
-    }
-  }
 }
