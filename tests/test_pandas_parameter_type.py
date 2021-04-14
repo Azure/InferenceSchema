@@ -13,23 +13,23 @@ class TestPandasParameterType(object):
 
     def test_pandas_handling(self, decorated_pandas_func):
         pandas_input = {'name': ['Sarah'], 'state': ['WA']}
-        age = pd.DataFrame(pd.DataFrame(pandas_input)['state'])
+        state = pd.DataFrame(pd.DataFrame(pandas_input)['state'])
         result = decorated_pandas_func(pandas_input)
-        assert_frame_equal(result, age)
+        assert_frame_equal(result, state)
 
         pandas_input = {'param': {'name': ['Sarah'], 'state': ['WA']}}
         result = decorated_pandas_func(**pandas_input)
-        assert_frame_equal(result, age)
+        assert_frame_equal(result, state)
 
         pandas_input = {'param': [{'name': 'Sara', 'state': 'WA'}]}
         result = decorated_pandas_func(**pandas_input)
-        assert_frame_equal(result, age)
+        assert_frame_equal(result, state)
 
     def test_pandas_orient_handling(self, decorated_pandas_func_split_orient):
         pandas_input = {"columns": ["name", "state"], "index": [0], "data": [["Sarah", "WA"]]}
-        age = pd.DataFrame(pd.read_json(json.dumps(pandas_input), orient='split')['state'])
+        state = pd.DataFrame(pd.read_json(json.dumps(pandas_input), orient='split')['state'])
         result = decorated_pandas_func_split_orient(pandas_input)
-        assert_frame_equal(result, age)
+        assert_frame_equal(result, state)
 
     def test_pandas_timestamp_handling(self, decorated_pandas_datetime_func):
         datetime_str = '2013-12-31 00:00:00,000000'

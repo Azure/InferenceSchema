@@ -193,7 +193,7 @@ def decorated_nested_func(standard_sample_input, numpy_sample_input, pandas_samp
         output0 = param['input0']
         output1 = pd.DataFrame(param['input1']['state'])
         output2 = param['input2']['grades']
-        output3 = {'age': param['input3']['state']}
+        output3 = {'state': param['input3']['state']}
         return {'output0': output0, 'output1': output1, 'output2': output2, 'output3': output3}
 
     return nested_func

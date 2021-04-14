@@ -3,7 +3,7 @@
 	"items": {
 		"type": "object",
 		"properties": {
-			"age": {
+			"state": {
 				"type": "string"
 			}
 		}

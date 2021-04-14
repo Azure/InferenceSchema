@@ -13,15 +13,15 @@ class TestSparkParameterType(object):
         spark_session = SparkSession.builder.getOrCreate()
         spark_input_data = {'name': ['Sarah'], 'state': ['WA']}
         spark_input = spark_session.createDataFrame(pd.DataFrame(spark_input_data))
-        age = spark_input.select('state')
+        state = spark_input.select('state')
 
         result = decorated_spark_func(spark_input)
-        assert age.subtract(result).count() == result.subtract(age).count() == 0
+        assert state.subtract(result).count() == result.subtract(state).count() == 0
 
         spark_input = [{'name': 'Sarah', 'state': 'WA'}]
         result = decorated_spark_func(spark_input)
-        assert age.subtract(result).count() == result.subtract(age).count() == 0
+        assert state.subtract(result).count() == result.subtract(state).count() == 0
 
         spark_input = {'param': [{'name': 'Sarah', 'state': 'WA'}]}
         result = decorated_spark_func(**spark_input)
-        assert age.subtract(result).count() == result.subtract(age).count() == 0
+        assert state.subtract(result).count() == result.subtract(state).count() == 0
