@@ -30,6 +30,8 @@ jobs:
         java-version: '8'
     - name: Set up Spark
       uses: vemonet/setup-spark@v1
+      with:
+        spark-version: '3.0.2'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
