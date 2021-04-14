@@ -1,17 +1,22 @@
 {
-	"type": "array",
-	"items": {
-		"type": "object",
-		"properties": {
-			"state": {
-				"type": "string"
-			}
-		}
-	},
-	"example": [{
-			"state": "WA"
-		}, {
-			"state": "CA"
-		}
-	]
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "state": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "state"
+        ]
+    },
+    "example": [
+        {
+            "state": "WA"
+        },
+        {
+            "state": "CA"
+        }
+    ]
 }
