@@ -4,9 +4,7 @@
 
 import json
 import pandas as pd
-import numpy as np
 from .abstract_parameter_type import AbstractParameterType
-from ._swagger_from_dtype import Dtype2Swagger
 from ._util import get_swagger_for_list, get_swagger_for_nested_dict
 
 

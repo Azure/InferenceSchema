@@ -6,13 +6,13 @@ import base64
 import pytz
 from datetime import date, datetime, time
 from .abstract_parameter_type import AbstractParameterType
-from ._constants import DATE_FORMAT, DATETIME_FORMAT, TIME_FORMAT, ERR_PYTHON_DATA_NOT_JSON_SERIALIZABLE
+from ._constants import DATE_FORMAT, DATETIME_FORMAT, TIME_FORMAT
 
 
 def handle_standard_types(sample_input):
     schema = None
     sample_data_type = type(sample_input)
-    
+
     if sample_data_type is int:
         schema = {"type": "integer", "format": "int64", "example": sample_input}
     elif sample_data_type is bytes:
