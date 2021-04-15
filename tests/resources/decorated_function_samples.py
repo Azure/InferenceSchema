@@ -72,7 +72,7 @@ def pandas_datetime_func(param):
     return pd.DataFrame(param['datetime'])
 
 
-spark_session = SparkSession.builder.config('spark.driver.host', '127.0.0.1:1234').getOrCreate()
+spark_session = SparkSession.builder.config('spark.driver.host', '127.0.0.1').getOrCreate()
 spark_input_data = pd.DataFrame({'name': ['Sarah', 'John'], 'age': [25, 26]})
 spark_sample_input = spark_session.createDataFrame(spark_input_data)
 spark_output_data = pd.DataFrame({'age': [25, 26]})
