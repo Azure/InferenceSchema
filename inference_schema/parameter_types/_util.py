@@ -63,18 +63,20 @@ def handle_standard_types(sample_input):
 def get_swagger_for_list(python_data):
     example = []
     nested_item_swagger = {"type": "object"}
-    item_type = type(python_data[0])
 
-    for data in python_data:
-        if type(data) != item_type:
-            raise Exception('Error, OpenAPI 2.x does not support mixed type in array.')
+    if python_data:
+        item_type = type(python_data[0])
 
-        if issubclass(item_type, AbstractParameterType):
-            nested_item_swagger = data.input_to_swagger()
-        else:
-            nested_item_swagger = handle_standard_types(data)
-        example.append(nested_item_swagger['example'])
-        del(nested_item_swagger['example'])
+        for data in python_data:
+            if type(data) != item_type:
+                raise Exception('Error, OpenAPI 2.x does not support mixed type in array.')
+
+            if issubclass(item_type, AbstractParameterType):
+                nested_item_swagger = data.input_to_swagger()
+            else:
+                nested_item_swagger = handle_standard_types(data)
+            example.append(nested_item_swagger['example'])
+            del(nested_item_swagger['example'])
 
     schema = {"type": "array", "items": nested_item_swagger, "example": example}
     return schema
