@@ -115,7 +115,7 @@ def decorated_pandas_func_split_orient(pandas_sample_input, pandas_sample_output
 
 @pytest.fixture(scope="session")
 def decorated_spark_func():
-    spark_session = SparkSession.builder.getOrCreate()
+    spark_session = SparkSession.builder.config('spark.driver.host', '127.0.0.1').getOrCreate()
     spark_input_data = pd.DataFrame({'name': ['Sarah', 'John'], 'state': ['WA', 'CA']})
     spark_sample_input = spark_session.createDataFrame(spark_input_data)
     spark_output_data = pd.DataFrame({'state': ['WA', 'CA']})
