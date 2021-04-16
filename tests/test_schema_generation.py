@@ -18,8 +18,8 @@ class TestNumpySchemaGeneration(object):
         resource_string(__name__, os.path.join('resources', 'sample_numpy_output_schema.json')).decode('ascii'))
 
     def test_numpy_handling(self, decorated_numpy_func):
-        assert get_input_schema(decorated_numpy_func) == self.numpy_sample_input_schema
-        assert get_output_schema(decorated_numpy_func) == self.numpy_sample_output_schema
+        assert ordered(get_input_schema(decorated_numpy_func)) == ordered(self.numpy_sample_input_schema)
+        assert ordered(get_output_schema(decorated_numpy_func)) == ordered(self.numpy_sample_output_schema)
 
 
 class TestPandasSchemaGeneration(object):
@@ -29,8 +29,8 @@ class TestPandasSchemaGeneration(object):
         resource_string(__name__, os.path.join('resources', 'sample_pandas_output_schema.json')).decode('ascii'))
 
     def test_pandas_handling(self, decorated_pandas_func):
-        assert get_input_schema(decorated_pandas_func) == self.pandas_sample_input_schema
-        assert get_output_schema(decorated_pandas_func) == self.pandas_sample_output_schema
+        assert ordered(get_input_schema(decorated_pandas_func)) == ordered(self.pandas_sample_input_schema)
+        assert ordered(get_output_schema(decorated_pandas_func)) == ordered(self.pandas_sample_output_schema)
 
 
 class TestSparkSchemaGeneration(object):
@@ -40,8 +40,8 @@ class TestSparkSchemaGeneration(object):
         resource_string(__name__, os.path.join('resources', 'sample_spark_output_schema.json')).decode('ascii'))
 
     def test_spark_handling(self, decorated_spark_func):
-        assert get_input_schema(decorated_spark_func) == self.spark_sample_input_schema
-        assert get_output_schema(decorated_spark_func) == self.spark_sample_output_schema
+        assert ordered(get_input_schema(decorated_spark_func)) == ordered(self.spark_sample_input_schema)
+        assert ordered(get_output_schema(decorated_spark_func)) == ordered(self.spark_sample_output_schema)
 
 
 class TestStandardPythonSchemaGeneration(object):
@@ -51,8 +51,8 @@ class TestStandardPythonSchemaGeneration(object):
         resource_string(__name__, os.path.join('resources', 'sample_standardpy_output_schema.json')).decode('ascii'))
 
     def test_standard_handling(self, decorated_standard_func):
-        assert get_input_schema(decorated_standard_func) == self.standard_sample_input_schema
-        assert get_output_schema(decorated_standard_func) == self.standard_sample_output_schema
+        assert ordered(get_input_schema(decorated_standard_func)) == ordered(self.standard_sample_input_schema)
+        assert ordered(get_output_schema(decorated_standard_func)) == ordered(self.standard_sample_output_schema)
 
 
 class TestNestedSchemaGeneration(object):
