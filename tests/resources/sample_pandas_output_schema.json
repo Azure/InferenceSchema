@@ -1,18 +1,22 @@
 {
-	"type": "array",
-	"items": {
-		"type": "object",
-		"properties": {
-			"age": {
-				"type": "integer",
-				"format": "int64"
-			}
-		}
-	},
-	"example": [{
-			"age": 25
-		}, {
-			"age": 26
-		}
-	]
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "state": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "state"
+        ]
+    },
+    "example": [
+        {
+            "state": "WA"
+        },
+        {
+            "state": "CA"
+        }
+    ]
 }

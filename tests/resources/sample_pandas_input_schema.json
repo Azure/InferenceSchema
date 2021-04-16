@@ -9,21 +9,21 @@
 					"name": {
 						"type": "string"
 					},
-					"age": {
-						"type": "integer",
-						"format": "int64"
+					"state": {
+						"type": "string"
 					}
-				}
+				},
+				"required": ["name", "state"]
 			}
 		}
 	},
 	"example": {
 		"param": [{
 				"name": "Sarah",
-				"age": 25
+				"state": "WA"
 			}, {
 				"name": "John",
-				"age": 26
+				"state": "CA"
 			}
 		]
 	}

@@ -44,7 +44,7 @@ if and only if they are of subtype of `AbstractParameterType`, which is an itera
 ## Samples
 
 Some sample usage for the decorators and each of the supported types can be found in the 
-[test resources](tests/resources/decorated_function_samples.py).
+[test resources](tests).
 
 ## Installing
 
