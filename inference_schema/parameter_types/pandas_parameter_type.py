@@ -27,7 +27,7 @@ class PandasParameterType(AbstractParameterType):
         :param enforce_shape: Enforce that input shape must match that of the provided sample when `deserialize_input`
             is called.
         :type enforce_shape: bool
-        :param apply_column_names: Apply column names fromt he provided sample onto the input when `deserialize_input`
+        :param apply_column_names: Apply column names from the provided sample onto the input when `deserialize_input`
             is called.
         :type apply_column_names: bool
         :param orient: The Pandas orient to use when converting between a json object and a DataFrame. Possible orients
@@ -67,13 +67,13 @@ class PandasParameterType(AbstractParameterType):
 
         data_frame = pd.read_json(json.dumps(input_data), orient=self.orient)
 
-        if self.apply_column_names and isinstance(input_data, list) and not isinstance(input_data[0], dict):
+        if self.apply_column_names:
             data_frame.columns = self.sample_input.columns.copy()
 
         if self.enforce_column_type:
             sample_input_column_types = self.sample_input.dtypes.to_dict()
             converted_types = {x: sample_input_column_types.get(x, object) for x in data_frame.columns}
-            data_frame = data_frame.astype(dtype=converted_types, copy=False)
+            data_frame = data_frame.astype(dtype=converted_types)
 
         if self.enforce_shape:
             expected_shape = self.sample_input.shape
