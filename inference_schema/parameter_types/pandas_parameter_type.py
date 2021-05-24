@@ -27,7 +27,7 @@ class PandasParameterType(AbstractParameterType):
         :param enforce_shape: Enforce that input shape must match that of the provided sample when `deserialize_input`
             is called.
         :type enforce_shape: bool
-        :param apply_column_names: Apply column names fromt he provided sample onto the input when `deserialize_input`
+        :param apply_column_names: Apply column names from the provided sample onto the input when `deserialize_input`
             is called.
         :type apply_column_names: bool
         :param orient: The Pandas orient to use when converting between a json object and a DataFrame. Possible orients
