@@ -68,7 +68,7 @@ class PandasParameterType(AbstractParameterType):
         data_frame = pd.read_json(json.dumps(input_data), orient=self.orient)
 
         if self.apply_column_names and isinstance(input_data, list) and not isinstance(input_data[0], dict):
-            data_frame.columns = self.sample_input.columns
+            data_frame.columns = self.sample_input.columns.copy()
 
         if self.enforce_column_type:
             sample_input_column_types = self.sample_input.dtypes.to_dict()
