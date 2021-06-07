@@ -33,6 +33,14 @@ class TestPandasSchemaGeneration(object):
         assert ordered(get_output_schema(decorated_pandas_func)) == ordered(self.pandas_sample_output_schema)
 
 
+class TestPandasDatetimeSchemaGeneration(object):
+    pandas_sample_datetime_schema = json.loads(
+        resource_string(__name__, os.path.join('resources', 'sample_pandas_datetime_schema.json')).decode('ascii'))
+
+    def test_pandas_datetime_handling(self, decorated_pandas_datetime_func):
+        assert ordered(get_input_schema(decorated_pandas_datetime_func)) == ordered(self.pandas_sample_datetime_schema)
+
+
 class TestSparkSchemaGeneration(object):
     spark_sample_input_schema = json.loads(
         resource_string(__name__, os.path.join('resources', 'sample_spark_input_schema.json')).decode('ascii'))

@@ -1,0 +1,17 @@
+{
+    "type": "array",
+    "items": {
+        "type": "object",
+        "required": ["datetime"],
+        "properties": {
+            "datetime": {
+                "type": "string",
+                "format": "date-time"
+            }
+        }
+    },
+    "example": [{
+            "datetime": "2013-12-31T00:00:00.000Z"
+        }
+    ]
+}
