@@ -109,35 +109,36 @@ class PandasParameterType(AbstractParameterType):
             swagger_schema = get_swagger_for_nested_dict(json_sample)
 
         if self.orient == 'records':
-            for column_name, column_info in swagger_schema['items']['properties'].items():
+            for column_name in self.sample_input.columns:
                 data_type = str(self.sample_input.dtypes[column_name])
                 if data_type.startswith('datetime'):
-                    column_info['format'] = 'date-time'
+                    swagger_schema['items']['properties'][str(column_name)]['format'] = 'date-time'
                 elif data_type.startswith('timedelta'):
-                    column_info['format'] = 'timedelta'
+                    swagger_schema['items']['properties'][str(column_name)]['format'] = 'timedelta'
         elif self.orient == 'index':
             for row in swagger_schema['properties'].values():
-                for column_name, column_info in row['properties'].items():
+                for column_name in self.sample_input.columns:
                     data_type = str(self.sample_input.dtypes[column_name])
                     if data_type.startswith('datetime'):
-                        column_info['format'] = 'date-time'
+                        row['properties'][str(column_name)]['format'] = 'date-time'
                     elif data_type.startswith('timedelta'):
-                        column_info['format'] = 'timedelta'
+                        row['properties'][str(column_name)]['format'] = 'timedelta'
         elif self.orient == 'columns':
-            for column_name, column_info in swagger_schema['properties'].items():
-                for row_info in column_info['properties'].values():
+            for column_name in self.sample_input.columns:
+                for row_info in swagger_schema['properties'][str(column_name)]['properties'].values():
                     data_type = str(self.sample_input.dtypes[column_name])
                     if data_type.startswith('datetime'):
                         row_info['format'] = 'date-time'
                     elif data_type.startswith('timedelta'):
                         row_info['format'] = 'timedelta'
         elif self.orient == 'table':
-            for column_name, column_info in swagger_schema['properties']['data']['items']['properties'].items():
-                if column_name != 'index':
-                    data_type = str(self.sample_input.dtypes[column_name])
-                    if data_type.startswith('datetime'):
-                        column_info['format'] = 'date-time'
-                    elif data_type.startswith('timedelta'):
-                        column_info['format'] = 'timedelta'
+            for column_name in self.sample_input.columns:
+                data_type = str(self.sample_input.dtypes[column_name])
+                if data_type.startswith('datetime'):
+                    swagger_schema['properties']['data']['items']['properties'][str(column_name)]['format'] = \
+                        'date-time'
+                elif data_type.startswith('timedelta'):
+                    swagger_schema['properties']['data']['items']['properties'][str(column_name)]['format'] = \
+                        'timedelta'
 
         return swagger_schema
