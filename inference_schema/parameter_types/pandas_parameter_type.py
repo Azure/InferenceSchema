@@ -73,6 +73,9 @@ class PandasParameterType(AbstractParameterType):
         if self.enforce_column_type:
             sample_input_column_types = self.sample_input.dtypes.to_dict()
             converted_types = {x: sample_input_column_types.get(x, object) for x in data_frame.columns}
+            for column_name, column_type in converted_types.items():
+                if str(column_type).startswith('timedelta'):
+                    data_frame[column_name] = pd.to_timedelta(data_frame[column_name])
             data_frame = data_frame.astype(dtype=converted_types)
 
         if self.enforce_shape:

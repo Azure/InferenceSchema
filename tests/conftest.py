@@ -84,7 +84,8 @@ def decorated_pandas_func(pandas_sample_input, pandas_sample_output):
 @pytest.fixture(scope="session")
 def decorated_pandas_datetime_func():
     pandas_sample_timestamp_input = pd.DataFrame({'datetime': pd.Series(['2013-12-31T00:00:00.000Z'],
-                                                                        dtype='datetime64[ns]')})
+                                                                        dtype='datetime64[ns]'),
+                                                  'days': pd.Series([pd.Timedelta(days=1)])})
 
     @input_schema('param', PandasParameterType(pandas_sample_timestamp_input))
     def pandas_datetime_func(param):
