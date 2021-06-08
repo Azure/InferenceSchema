@@ -30,9 +30,9 @@ CLASSIFIERS = [
     'Intended Audience :: Developers',
     'Intended Audience :: System Administrators',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8'
 ]
 
 with io.open('LICENSE.txt', 'r', encoding='utf-8') as f:
@@ -48,5 +48,6 @@ setup(
     install_requires=DEPENDENCIES,
     extras_require=EXTRAS,
     packages=find_packages(exclude=['tests', 'tests.*']),
-    include_package_data=True
+    include_package_data=True,
+    python_requires=">=3.6,<3.9"
 )
