@@ -1,0 +1,33 @@
+{
+    "type": "object",
+	"properties": {
+		"param": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "datetime",
+                    "days"
+                ],
+                "properties": {
+                    "datetime": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "days": {
+                        "type": "string",
+                        "format": "timedelta"
+                    }
+                }
+            }
+        }
+    },
+    "example": {
+        "param": [
+            {
+                "datetime": "2013-12-31T00:00:00.000Z",
+                "days": "P1DT0H0M0S"
+            }
+        ]
+    }
+}

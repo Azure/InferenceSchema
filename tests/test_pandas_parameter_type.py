@@ -33,7 +33,8 @@ class TestPandasParameterType(object):
 
     def test_pandas_timestamp_handling(self, decorated_pandas_datetime_func):
         datetime_str = '2013-12-31 00:00:00,000000'
-        pandas_input = {'param': [{'datetime': datetime_str}]}
+        timedelta_str = 'P1DT0H0M0S'
+        pandas_input = {'param': [{'datetime': datetime_str, 'days': timedelta_str}]}
         datetime = pd.DataFrame(
             pd.DataFrame({'datetime': pd.Series([datetime_str], dtype='datetime64[ns]')})['datetime'])
         result = decorated_pandas_datetime_func(**pandas_input)

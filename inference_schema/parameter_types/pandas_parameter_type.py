@@ -73,6 +73,9 @@ class PandasParameterType(AbstractParameterType):
         if self.enforce_column_type:
             sample_input_column_types = self.sample_input.dtypes.to_dict()
             converted_types = {x: sample_input_column_types.get(x, object) for x in data_frame.columns}
+            for column_name, column_type in converted_types.items():
+                if str(column_type).startswith('timedelta'):
+                    data_frame[column_name] = pd.to_timedelta(data_frame[column_name])
             data_frame = data_frame.astype(dtype=converted_types)
 
         if self.enforce_shape:
@@ -101,11 +104,44 @@ class PandasParameterType(AbstractParameterType):
         :rtype: dict
         """
         LIST_LIKE_ORIENTS = ('records', 'values')
-        json_sample = json.loads(self.sample_input.to_json(orient=self.orient))
+        json_sample = json.loads(self.sample_input.to_json(orient=self.orient, date_format='iso'))
 
         if self.orient in LIST_LIKE_ORIENTS:
             swagger_schema = get_swagger_for_list(json_sample)
         else:
             swagger_schema = get_swagger_for_nested_dict(json_sample)
+
+        if self.orient == 'records':
+            for column_name in self.sample_input.columns:
+                data_type = str(self.sample_input.dtypes[column_name])
+                if data_type.startswith('datetime'):
+                    swagger_schema['items']['properties'][str(column_name)]['format'] = 'date-time'
+                elif data_type.startswith('timedelta'):
+                    swagger_schema['items']['properties'][str(column_name)]['format'] = 'timedelta'
+        elif self.orient == 'index':
+            for row in swagger_schema['properties'].values():
+                for column_name in self.sample_input.columns:
+                    data_type = str(self.sample_input.dtypes[column_name])
+                    if data_type.startswith('datetime'):
+                        row['properties'][str(column_name)]['format'] = 'date-time'
+                    elif data_type.startswith('timedelta'):
+                        row['properties'][str(column_name)]['format'] = 'timedelta'
+        elif self.orient == 'columns':
+            for column_name in self.sample_input.columns:
+                for row_info in swagger_schema['properties'][str(column_name)]['properties'].values():
+                    data_type = str(self.sample_input.dtypes[column_name])
+                    if data_type.startswith('datetime'):
+                        row_info['format'] = 'date-time'
+                    elif data_type.startswith('timedelta'):
+                        row_info['format'] = 'timedelta'
+        elif self.orient == 'table':
+            for column_name in self.sample_input.columns:
+                data_type = str(self.sample_input.dtypes[column_name])
+                if data_type.startswith('datetime'):
+                    swagger_schema['properties']['data']['items']['properties'][str(column_name)]['format'] = \
+                        'date-time'
+                elif data_type.startswith('timedelta'):
+                    swagger_schema['properties']['data']['items']['properties'][str(column_name)]['format'] = \
+                        'timedelta'
 
         return swagger_schema
