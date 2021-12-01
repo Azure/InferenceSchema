@@ -3,11 +3,11 @@
     "properties": {
         "param": {
             "type": "object",
-            "format": "pandas.DataFrame",
             "required": ["input1", "input2", "input3", "input0"],
             "properties": {
                 "input1": {
                     "type": "array",
+                    "format": "pandas.DataFrame",
                     "items": {
                         "type": "object",
                         "required": ["name", "state"],

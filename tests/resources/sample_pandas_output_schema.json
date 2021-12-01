@@ -1,6 +1,6 @@
 {
     "type": "array",
-    "format": "pandas.DataFrame"
+    "format": "pandas.DataFrame",
     "items": {
         "type": "object",
         "properties": {
