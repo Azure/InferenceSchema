@@ -11,4 +11,4 @@ ERR_PYTHON_DATA_NOT_JSON_SERIALIZABLE = "Invalid python data sample provided: en
 
 class SWAGGER_FORMAT_CONSTANTS:
     NUMPY_FORMAT = "numpy.ndarray"
-    PANDAS_FORMAT = "pandas.DataFrame"
+    PANDAS_FORMAT = "pandas.DataFrame:{}"

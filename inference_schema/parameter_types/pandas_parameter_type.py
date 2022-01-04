@@ -144,5 +144,5 @@ class PandasParameterType(AbstractParameterType):
                 elif data_type.startswith('timedelta'):
                     swagger_schema['properties']['data']['items']['properties'][str(column_name)]['format'] = \
                         'timedelta'
-        swagger_schema["format"] = SWAGGER_FORMAT_CONSTANTS.PANDAS_FORMAT
+        swagger_schema["format"] = SWAGGER_FORMAT_CONSTANTS.PANDAS_FORMAT.format(self.orient)
         return swagger_schema

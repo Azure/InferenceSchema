@@ -1,9 +1,9 @@
 {
 	"type": "object",
-	"format": "numpy.ndarray",
 	"properties": {
 		"param": {
 			"type": "array",
+			"format": "numpy.ndarray",
 			"items": {
 				"type": "object",
 				"properties": {
