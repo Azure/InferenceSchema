@@ -5,6 +5,7 @@
 import numpy as np
 from .abstract_parameter_type import AbstractParameterType
 from ._swagger_from_dtype import Dtype2Swagger
+from ._constants import SWAGGER_FORMAT_CONSTANTS
 
 
 class NumpyParameterType(AbstractParameterType):
@@ -96,6 +97,7 @@ class NumpyParameterType(AbstractParameterType):
         swagger_schema = Dtype2Swagger.handle_swagger_array(swagger_item_type, shape)
         items_count = len(self.sample_input)
         swagger_schema['example'] = self._get_swagger_sample(self.sample_input, items_count, swagger_schema['items'])
+        swagger_schema["format"] = SWAGGER_FORMAT_CONSTANTS.NUMPY_FORMAT
         return swagger_schema
 
     @classmethod

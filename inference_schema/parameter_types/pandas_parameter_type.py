@@ -6,6 +6,7 @@ import json
 import pandas as pd
 from .abstract_parameter_type import AbstractParameterType
 from ._util import get_swagger_for_list, get_swagger_for_nested_dict
+from ._constants import SWAGGER_FORMAT_CONSTANTS
 
 
 class PandasParameterType(AbstractParameterType):
@@ -143,5 +144,5 @@ class PandasParameterType(AbstractParameterType):
                 elif data_type.startswith('timedelta'):
                     swagger_schema['properties']['data']['items']['properties'][str(column_name)]['format'] = \
                         'timedelta'
-
+        swagger_schema["format"] = SWAGGER_FORMAT_CONSTANTS.PANDAS_FORMAT.format(self.orient)
         return swagger_schema

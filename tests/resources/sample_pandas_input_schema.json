@@ -3,6 +3,7 @@
 	"properties": {
 		"param": {
 			"type": "array",
+			"format": "pandas.DataFrame:records",
 			"items": {
 				"type": "object",
 				"properties": {

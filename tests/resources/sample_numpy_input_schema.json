@@ -3,6 +3,7 @@
 	"properties": {
 		"param": {
 			"type": "array",
+			"format": "numpy.ndarray",
 			"items": {
 				"type": "object",
 				"properties": {
