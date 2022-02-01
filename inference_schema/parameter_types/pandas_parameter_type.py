@@ -14,7 +14,7 @@ class PandasParameterType(AbstractParameterType):
     Class used to specify an expected parameter as a Pandas type.
     """
 
-    def __init__(self, sample_input, enforce_column_type=True, enforce_shape=True, apply_column_names=True,
+    def __init__(self, sample_input, enforce_column_type=True, enforce_shape=True, apply_column_names=False,
                  orient='records'):
         """
         Construct the PandasParameterType object.
@@ -29,7 +29,9 @@ class PandasParameterType(AbstractParameterType):
             is called.
         :type enforce_shape: bool
         :param apply_column_names: Apply column names from the provided sample onto the input when `deserialize_input`
-            is called.
+            is called. Disabled by default, as there is no guaranteed order for dictionary keys, so it's possible for
+            names to be applied in the wrong order. Recommended to only use if the expected input will be an array 
+            representation of the dataframe.
         :type apply_column_names: bool
         :param orient: The Pandas orient to use when converting between a json object and a DataFrame. Possible orients
             are 'split', 'records', 'index', 'columns', 'values', or 'table'. More information about these orients can
