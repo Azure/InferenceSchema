@@ -31,7 +31,7 @@ class PandasParameterType(AbstractParameterType):
         :type enforce_shape: bool
         :param apply_column_names: Apply column names from the provided sample onto the input when `deserialize_input`
             is called. Disabled by default, as there is no guaranteed order for dictionary keys, so it's possible for
-            names to be applied in the wrong order. Recommended to only use if the expected input will be an array 
+            names to be applied in the wrong order. Recommended to only use if the expected input will be an array
             representation of the dataframe.
         :type apply_column_names: bool
         :param orient: The Pandas orient to use when converting between a json object and a DataFrame. Possible orients
