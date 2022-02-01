@@ -7,6 +7,7 @@ import pandas as pd
 from .abstract_parameter_type import AbstractParameterType
 from ._util import get_swagger_for_list, get_swagger_for_nested_dict
 from ._constants import SWAGGER_FORMAT_CONSTANTS
+from warnings import warn
 
 
 class PandasParameterType(AbstractParameterType):
@@ -44,6 +45,10 @@ class PandasParameterType(AbstractParameterType):
         super(PandasParameterType, self).__init__(sample_input)
         self.enforce_column_type = enforce_column_type
         self.enforce_shape = enforce_shape
+        
+        if apply_column_names:
+            warn('apply_column_names is a deprecated parameter and will be removed in a future update',
+                 DeprecationWarning, stacklevel=2)
         self.apply_column_names = apply_column_names
 
         if orient not in ('split', 'records', 'index', 'columns', 'values', 'table'):
