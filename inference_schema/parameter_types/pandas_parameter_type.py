@@ -45,7 +45,7 @@ class PandasParameterType(AbstractParameterType):
         super(PandasParameterType, self).__init__(sample_input)
         self.enforce_column_type = enforce_column_type
         self.enforce_shape = enforce_shape
-        
+
         if apply_column_names:
             warn('apply_column_names is a deprecated parameter and will be removed in a future update',
                  DeprecationWarning, stacklevel=2)
