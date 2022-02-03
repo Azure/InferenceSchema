@@ -29,8 +29,12 @@ class TestPandasSchemaGeneration(object):
         resource_string(__name__, os.path.join('resources', 'sample_pandas_output_schema.json')).decode('ascii'))
 
     def test_pandas_handling(self, decorated_pandas_func):
-        assert ordered(get_input_schema(decorated_pandas_func)) == ordered(self.pandas_sample_input_schema)
-        assert ordered(get_output_schema(decorated_pandas_func)) == ordered(self.pandas_sample_output_schema)
+        input_schema = get_input_schema(decorated_pandas_func)
+        output_schema = get_output_schema(decorated_pandas_func)
+        print("pandas input schema: ", input_schema)
+        print("pandas output schema: ", output_schema)
+        assert ordered(input_schema) == ordered(self.pandas_sample_input_schema)
+        assert ordered(output_schema) == ordered(self.pandas_sample_output_schema)
 
 
 class TestPandasDatetimeSchemaGeneration(object):
