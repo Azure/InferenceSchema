@@ -40,11 +40,11 @@ class TestPandasParameterType(object):
         result = decorated_pandas_datetime_func(**pandas_input)
         assert_frame_equal(result, datetime)
 
-    def test_pandas_multi_type_columns_labels_handling(self, decorated_pandas_func_multi_type_column_labels):
-        pandas_input = {'name': ['Sarah', 'John'], 1: ['WA', 'CA']}
-        result = decorated_pandas_func_multi_type_column_labels(pandas_input)
-        expected_result = pd.DataFrame(pandas_input)
-        assert_frame_equal(result, expected_result)
+    def test_pandas_int_column_labels(self, decorated_pandas_func_int_column_labels,
+                                      pandas_sample_input_int_column_labels):
+        input = pandas_sample_input_int_column_labels.to_dict(orient='records')
+        result = decorated_pandas_func_int_column_labels(input)
+        assert_frame_equal(result, pandas_sample_input_int_column_labels)
 
 
 class TestNestedType(object):

@@ -58,8 +58,8 @@ def pandas_sample_output():
 
 
 @pytest.fixture(scope="session")
-def pandas_sample_input_multi_type_column_labels():
-    pandas_input_data = {'name': ['Sarah', 'John'], 1: ['WA', 'CA']}
+def pandas_sample_input_int_column_labels():
+    pandas_input_data = {0: ['Sarah', 'John'], 1: ['WA', 'CA']}
     return pd.DataFrame(data=pandas_input_data)
 
 
@@ -121,10 +121,10 @@ def decorated_pandas_func_split_orient(pandas_sample_input, pandas_sample_output
 
 
 @pytest.fixture(scope="session")
-def decorated_pandas_func_multi_type_column_labels(pandas_sample_input_multi_type_column_labels):
+def decorated_pandas_func_int_column_labels(pandas_sample_input_int_column_labels):
 
-    @input_schema('param', PandasParameterType(pandas_sample_input_multi_type_column_labels))
-    def pandas_split_orient_func(param):
+    @input_schema('param', PandasParameterType(pandas_sample_input_int_column_labels))
+    def pandas_func(param):
         """
 
         :param param:
@@ -132,11 +132,11 @@ def decorated_pandas_func_multi_type_column_labels(pandas_sample_input_multi_typ
         :return:
         :rtype: pd.DataFrame
         """
-        assert param["name"] is not None
+        assert param[0] is not None
         assert param[1] is not None
         return param
 
-    return pandas_split_orient_func
+    return pandas_func
 
 
 @pytest.fixture(scope="session")

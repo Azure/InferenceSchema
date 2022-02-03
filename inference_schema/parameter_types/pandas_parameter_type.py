@@ -18,7 +18,12 @@ class PandasParameterType(AbstractParameterType):
     def __init__(self, sample_input, enforce_column_type=True, enforce_shape=True, apply_column_names=False,
                  orient='records'):
         """
-        Construct the PandasParameterType object.
+        Construct the PandasParameterType object. An important note regarding Pandas DataFrame handling; by default,
+        Pandas supports integer type column names in a DataFrame. However, when using the built in methods for
+        converting a json object to a DataFrame, unless all of the columns are integers, they will all be converted
+        to strings. This ParameterType uses the built in methods for performing conversion, and as such
+        `deserialize_input` has the same limitation. It is recommended to not use a mix of string and integer
+        type column names in the provided sample, as this can lead to inconsistent/unexpected behavior.
 
         :param sample_input: A sample input dataframe. This sample will be used as a basis for column types and array
             shape.
@@ -29,10 +34,10 @@ class PandasParameterType(AbstractParameterType):
         :param enforce_shape: Enforce that input shape must match that of the provided sample when `deserialize_input`
             is called.
         :type enforce_shape: bool
-        :param apply_column_names: Apply column names from the provided sample onto the input when `deserialize_input`
-            is called. Disabled by default, as there is no guaranteed order for dictionary keys, so it's possible for
-            names to be applied in the wrong order. Recommended to only use if the expected input will be an array
-            representation of the dataframe.
+        :param apply_column_names: [DEPRECATED] Apply column names from the provided sample onto the input when
+            `deserialize_input` is called. Disabled by default, as there is no guaranteed order for dictionary keys,
+            so it's possible for names to be applied in the wrong order when `deserialize_input` is called. The
+            property is deprecated, and will be removed in a future update.
         :type apply_column_names: bool
         :param orient: The Pandas orient to use when converting between a json object and a DataFrame. Possible orients
             are 'split', 'records', 'index', 'columns', 'values', or 'table'. More information about these orients can
