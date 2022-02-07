@@ -124,7 +124,7 @@ def decorated_pandas_func_split_orient(pandas_sample_input, pandas_sample_output
 def decorated_pandas_func_int_column_labels(pandas_sample_input_int_column_labels):
 
     @input_schema('param', PandasParameterType(pandas_sample_input_int_column_labels))
-    def pandas_func(param):
+    def pandas_int_column_labels_func(param):
         """
 
         :param param:
