@@ -136,7 +136,7 @@ def decorated_pandas_func_int_column_labels(pandas_sample_input_int_column_label
         assert param[1] is not None
         return param
 
-    return pandas_func
+    return pandas_int_column_labels_func
 
 
 @pytest.fixture(scope="session")
