@@ -23,6 +23,7 @@ class AbstractParameterType(ABC):
     def __init__(self, sample_input):
         self.sample_input = sample_input
         self.sample_data_type = type(sample_input)
+        self.supported_swagger_versions = []
 
     @abstractmethod
     def deserialize_input(self, input_data):

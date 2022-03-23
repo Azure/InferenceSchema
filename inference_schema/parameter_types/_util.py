@@ -68,9 +68,6 @@ def get_swagger_for_list(python_data):
         item_type = type(python_data[0])
 
         for data in python_data:
-            if type(data) != item_type:
-                raise Exception('Error, OpenAPI 2.x does not support mixed type in array.')
-
             if issubclass(item_type, AbstractParameterType):
                 nested_item_swagger = data.input_to_swagger()
             else:

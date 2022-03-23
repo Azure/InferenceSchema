@@ -40,6 +40,21 @@ class StandardPythonParameterType(AbstractParameterType):
                 if issubclass(type(data), AbstractParameterType):
                     self.sample_data_type_list.append(data)
 
+    def _get_supported_versions(self):
+        supported_list = ['3.0', '3.1']
+        v2_compatible = True
+        if self.sample_data_type is list or self.sample_data_type is tuple:
+            iterable_data_type = type(self.sample_input[0])
+            for data in self.sample_input:
+                if type(data) != iterable_data_type:
+                    v2_compatible = False
+        if v2_compatible:
+            supported_list += ['2.0']
+        return sorted(supported_list)
+
+    def supported_versions(self):
+        return "This parameter type is supported by Swagger versions " + str(self._get_supported_versions())
+
     def deserialize_input(self, input_data):
         """
         Convert the provided data into the expected Python object.
