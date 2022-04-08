@@ -72,7 +72,11 @@ class StandardPythonParameterType(AbstractParameterType):
             input_data = parser.parse(input_data).timetz()
         elif self.sample_data_type is bytearray or (sys.version_info[0] == 3 and self.sample_data_type is bytes):
             input_data = base64.b64decode(input_data.encode('utf-8'))
-        if not isinstance(input_data, self.sample_data_type):
+
+        if self.sample_data_type is float and type(input_data) is int:
+            # Allow users to pass ints when expecting floats, for convenience
+            pass
+        elif not isinstance(input_data, self.sample_data_type):
             raise ValueError("Invalid input data type to parse. Expected: {0} but got {1}".format(
                 self.sample_data_type, type(input_data)))
 

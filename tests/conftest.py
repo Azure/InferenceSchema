@@ -185,6 +185,15 @@ def decorated_standard_func(standard_sample_input, standard_sample_output):
 
 
 @pytest.fixture(scope="session")
+def decorated_float_func():
+    @input_schema('param', StandardPythonParameterType(1.0))
+    def standard_float_func(param):
+        return param
+
+    return standard_float_func
+
+
+@pytest.fixture(scope="session")
 def decorated_nested_func(standard_sample_input, numpy_sample_input, pandas_sample_input, standard_sample_output,
                           numpy_sample_output, pandas_sample_output):
     # input0 are not wrapped by any ParameterTypes hence will be neglected
