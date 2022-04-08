@@ -46,3 +46,12 @@ class TestStandardPythonParameterType(object):
     def test_supported_versions_string(self):
         assert '2.0' in StandardPythonParameterType({'name': ['Sarah'], 'state': ['WA']}).supported_versions()
         assert '2.0' not in StandardPythonParameterType(['foo', 1]).supported_versions()
+        
+    def test_float_int_handling(self, decorated_float_func):
+        float_input = 1.0
+        result = decorated_float_func(float_input)
+        assert float_input == result
+
+        int_input = 1
+        result = decorated_float_func(int_input)
+        assert int_input == result
