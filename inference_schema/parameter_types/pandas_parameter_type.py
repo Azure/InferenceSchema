@@ -49,6 +49,13 @@ class PandasParameterType(AbstractParameterType):
                             "'values', or 'table')")
         self.orient = orient
 
+    def _get_supported_versions(self):
+        supported_list = ['2.0', '3.0', '3.1']
+        return sorted(supported_list)
+
+    def supported_versions(self):
+        return self._get_supported_versions()
+
     def deserialize_input(self, input_data):
         """
         Convert the provided pandas-like object into a pandas dataframe. Will attempt to enforce column type and array

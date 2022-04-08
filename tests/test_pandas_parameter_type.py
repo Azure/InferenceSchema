@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 
 from pandas.testing import assert_frame_equal
+from inference_schema.schema_util import get_supported_versions_for_input, get_supported_versions_for_output
 
 
 class TestPandasParameterType(object):
@@ -24,6 +25,11 @@ class TestPandasParameterType(object):
         pandas_input = {'param': [{'name': 'Sara', 'state': 'WA'}]}
         result = decorated_pandas_func(**pandas_input)
         assert_frame_equal(result, state)
+
+        version_list_input = get_supported_versions_for_input(decorated_pandas_func)
+        assert '2.0' in version_list_input       
+        assert '3.0' in version_list_input
+        assert '3.1' in version_list_input
 
     def test_pandas_orient_handling(self, decorated_pandas_func_split_orient):
         pandas_input = {"columns": ["name", "state"], "index": [0], "data": [["Sarah", "WA"]]}

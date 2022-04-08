@@ -41,6 +41,13 @@ class SparkParameterType(AbstractParameterType):
         super(SparkParameterType, self).__init__(sample_input)
         self.apply_sample_schema = apply_sample_schema
 
+    def _get_supported_versions(self):
+        supported_list = ['2.0', '3.0', '3.1']
+        return sorted(supported_list)
+
+    def supported_versions(self):
+        return self._get_supported_versions()
+
     def deserialize_input(self, input_data):
         """
         Convert the provided spark-like object into a spark dataframe. Will attempt to enforce column type and array

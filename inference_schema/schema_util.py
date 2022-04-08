@@ -37,6 +37,39 @@ def get_output_schema(func):
     return _get_schema_from_dictionary(OUTPUT_SCHEMA_ATTR, func)
 
 
+def get_supported_versions_for_input(func):
+    """
+    Extract the input's supported swagger versions from the decorated function.
+
+    :param func:
+    :type func: function | FunctionWrapper
+    :return:
+    :rtype: list
+    """
+    decorators = _get_decorators(func)
+    func_base_name = _get_function_full_qual_name(decorators[-1])
+    print(func_base_name)
+    print(__versions__)
+    print(__versions__.get(func_base_name, {}))
+
+    return __versions__.get(func_base_name, {}).get(INPUT_SCHEMA_ATTR, {}).get('versions', [])
+
+
+def get_supported_versions_for_output(func):
+    """
+    Extract the output's supported swagger versions from the decorated function.
+
+    :param func:
+    :type func: function | FunctionWrapper
+    :return:
+    :rtype: list
+    """
+    decorators = _get_decorators(func)
+    func_base_name = _get_function_full_qual_name(decorators[-1])
+
+    return __versions__.get(func_base_name, {}).get(OUTPUT_SCHEMA_ATTR, {}).get('versions', [])
+
+
 def get_schemas_dict():
     """
     Retrieve a deepcopy of the dictionary that is used to track the provided function schemas
@@ -45,15 +78,6 @@ def get_schemas_dict():
     :rtype: dict
     """
     return copy.deepcopy(__functions_schema__)
-
-
-def get_supported_versions():
-    """
-    Retrieve a deepcopy of the dictionary that is used to track supported swagger versions
-    :return:
-    :rtype: dict
-    """
-    return copy.deepcopy(__versions__)
 
 
 def is_schema_decorated(func):

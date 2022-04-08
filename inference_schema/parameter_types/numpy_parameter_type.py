@@ -36,6 +36,13 @@ class NumpyParameterType(AbstractParameterType):
         self.enforce_column_type = enforce_column_type
         self.enforce_shape = enforce_shape
 
+    def _get_supported_versions(self):
+        supported_list = ['2.0', '3.0', '3.1']
+        return sorted(supported_list)
+
+    def supported_versions(self):
+        return self._get_supported_versions()
+
     def deserialize_input(self, input_data):
         """
         Convert the provided array-like object into a numpy array. Will attempt to enforce column type and array shape
