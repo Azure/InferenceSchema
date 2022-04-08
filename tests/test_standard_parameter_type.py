@@ -19,12 +19,12 @@ class TestStandardPythonParameterType(object):
         assert state == result
 
         version_list_input = get_supported_versions_for_input(decorated_standard_func)
-        assert '2.0' in version_list_input       
+        assert '2.0' in version_list_input
         assert '3.0' in version_list_input
         assert '3.1' in version_list_input
 
         version_list_output = get_supported_versions_for_output(decorated_standard_func)
-        assert '2.0' in version_list_output       
+        assert '2.0' in version_list_output
         assert '3.0' in version_list_output
         assert '3.1' in version_list_output
 
@@ -37,21 +37,21 @@ class TestStandardPythonParameterType(object):
                 return param[1]
 
             return standard_py_func
-        
+
         func = decorated_standard_func(['foo', 1], 5)
 
         standard_input = ['foo', 1]
         assert 1 == func(standard_input)
 
         version_list_input = get_supported_versions_for_input(func)
-        assert '2.0' not in version_list_input       
+        assert '2.0' not in version_list_input
         assert '3.0' in version_list_input
         assert '3.1' in version_list_input
 
     def test_supported_versions_string(self):
         assert '2.0' in StandardPythonParameterType({'name': ['Sarah'], 'state': ['WA']}).supported_versions()
         assert '2.0' not in StandardPythonParameterType(['foo', 1]).supported_versions()
-        
+
     def test_float_int_handling(self, decorated_float_func):
         float_input = 1.0
         result = decorated_float_func(float_input)
