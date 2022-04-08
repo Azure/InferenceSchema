@@ -37,27 +37,9 @@ def get_output_schema(func):
     return _get_schema_from_dictionary(OUTPUT_SCHEMA_ATTR, func)
 
 
-def get_supported_versions_for_input(func):
+def get_supported_versions(func):
     """
-    Extract the input's supported swagger versions from the decorated function.
-
-    :param func:
-    :type func: function | FunctionWrapper
-    :return:
-    :rtype: list
-    """
-    decorators = _get_decorators(func)
-    func_base_name = _get_function_full_qual_name(decorators[-1])
-    print(func_base_name)
-    print(__versions__)
-    print(__versions__.get(func_base_name, {}))
-
-    return __versions__.get(func_base_name, {}).get(INPUT_SCHEMA_ATTR, {}).get('versions', [])
-
-
-def get_supported_versions_for_output(func):
-    """
-    Extract the output's supported swagger versions from the decorated function.
+    Extract supported swagger versions from the decorated function.
 
     :param func:
     :type func: function | FunctionWrapper
@@ -67,7 +49,10 @@ def get_supported_versions_for_output(func):
     decorators = _get_decorators(func)
     func_base_name = _get_function_full_qual_name(decorators[-1])
 
-    return __versions__.get(func_base_name, {}).get(OUTPUT_SCHEMA_ATTR, {}).get('versions', [])
+    input_versions = __versions__.get(func_base_name, {}).get(INPUT_SCHEMA_ATTR, {}).get('versions', [])
+    output_versions = __versions__.get(func_base_name, {}).get(OUTPUT_SCHEMA_ATTR, {}).get('versions', [])
+    set_intersection = set(input_versions) & set(output_versions)
+    return sorted(list(set_intersection))
 
 
 def get_schemas_dict():

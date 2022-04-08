@@ -3,7 +3,7 @@
 # ---------------------------------------------------------
 
 import numpy as np
-from inference_schema.schema_util import get_supported_versions_for_input
+from inference_schema.schema_util import get_supported_versions
 
 
 class TestNumpyParameterType(object):
@@ -23,7 +23,7 @@ class TestNumpyParameterType(object):
         result = decorated_numpy_func(**numpy_input)
         assert np.array_equal(result, grades)
 
-        version_list_input = get_supported_versions_for_input(decorated_numpy_func)
-        assert '2.0' in version_list_input
-        assert '3.0' in version_list_input
-        assert '3.1' in version_list_input
+        version_list = get_supported_versions(decorated_numpy_func)
+        assert '2.0' in version_list
+        assert '3.0' in version_list
+        assert '3.1' in version_list
