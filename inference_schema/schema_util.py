@@ -8,6 +8,7 @@ import inspect
 from inference_schema._constants import INPUT_SCHEMA_ATTR, OUTPUT_SCHEMA_ATTR
 
 __functions_schema__ = {}
+__versions__ = {}
 
 
 def get_input_schema(func):
@@ -44,6 +45,15 @@ def get_schemas_dict():
     :rtype: dict
     """
     return copy.deepcopy(__functions_schema__)
+
+
+def get_supported_versions():
+    """
+    Retrieve a deepcopy of the dictionary that is used to track supported swagger versions
+    :return:
+    :rtype: dict
+    """
+    return copy.deepcopy(__versions__)
 
 
 def is_schema_decorated(func):

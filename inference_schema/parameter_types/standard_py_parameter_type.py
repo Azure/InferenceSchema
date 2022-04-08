@@ -53,7 +53,7 @@ class StandardPythonParameterType(AbstractParameterType):
         return sorted(supported_list)
 
     def supported_versions(self):
-        return "This parameter type is supported by Swagger versions " + str(self._get_supported_versions())
+        return self._get_supported_versions()
 
     def deserialize_input(self, input_data):
         """

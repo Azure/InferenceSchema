@@ -7,7 +7,7 @@ import inspect
 import copy
 from functools import partial
 
-from .schema_util import _get_decorators, _get_function_full_qual_name, __functions_schema__
+from .schema_util import _get_decorators, _get_function_full_qual_name, __functions_schema__, __versions__
 from .parameter_types.abstract_parameter_type import AbstractParameterType
 from ._constants import INPUT_SCHEMA_ATTR, OUTPUT_SCHEMA_ATTR
 
@@ -39,8 +39,9 @@ def input_schema(param_name, param_type, convert_to_provided_type=True):
                         'of the AbstractParameterType.')
 
     swagger_schema = {param_name: param_type.input_to_swagger()}
+    supported_versions = param_type.supported_versions()
 
-    @_schema_decorator(attr_name=INPUT_SCHEMA_ATTR, schema=swagger_schema)
+    @_schema_decorator(attr_name=INPUT_SCHEMA_ATTR, schema=swagger_schema, supported_versions=supported_versions)
     def decorator_input(user_run, instance, args, kwargs):
         if convert_to_provided_type:
             args = list(args)
@@ -82,8 +83,9 @@ def output_schema(output_type):
                         'of the AbstractParameterType.')
 
     swagger_schema = output_type.input_to_swagger()
+    supported_versions = output_type.supported_versions()
 
-    @_schema_decorator(attr_name=OUTPUT_SCHEMA_ATTR, schema=swagger_schema)
+    @_schema_decorator(attr_name=OUTPUT_SCHEMA_ATTR, schema=swagger_schema, supported_versions=supported_versions)
     def decorator_input(user_run, instance, args, kwargs):
         return user_run(*args, **kwargs)
 
@@ -91,7 +93,7 @@ def output_schema(output_type):
 
 
 # Heavily based on the wrapt.decorator implementation
-def _schema_decorator(wrapper=None, enabled=None, attr_name=None, schema=None):
+def _schema_decorator(wrapper=None, enabled=None, attr_name=None, schema=None, supported_versions=None):
     """
     Decorator to generate decorators, preserving the metadata passed to the
     decorator arguments, that is needed to be able to extact that information
@@ -107,6 +109,8 @@ def _schema_decorator(wrapper=None, enabled=None, attr_name=None, schema=None):
     :type attr_name: str | None
     :param schema:
     :type schema: dict | None
+    :param supported_versions:
+    :type supported_versions: List | None
     :return:
     :rtype: function | FunctionWrapper
     """
@@ -134,6 +138,7 @@ def _schema_decorator(wrapper=None, enabled=None, attr_name=None, schema=None):
                 return _capture
 
             _add_schema_to_global_schema_dictionary(attr_name, schema, args[0])
+            _add_versions_to_global_versions_dictionary(attr_name, supported_versions, args[0])
             target_wrapped = args[0]
 
             _enabled = enabled
@@ -165,7 +170,8 @@ def _schema_decorator(wrapper=None, enabled=None, attr_name=None, schema=None):
             _schema_decorator,
             enabled=enabled,
             attr_name=attr_name,
-            schema=schema
+            schema=schema,
+            supported_versions=supported_versions
         )
 
 
@@ -201,6 +207,35 @@ def _add_schema_to_global_schema_dictionary(attr_name, schema, user_func):
         pass
 
 
+def _add_versions_to_global_versions_dictionary(attr_name, versions, user_func):
+    """
+    function to add supported swagger versions for 'attr_name', to the function versions dict
+
+    :param attr_name:
+    :type attr_name: str
+    :param versions:
+    :type versions: List
+    :param user_func:
+    :type user_func: function | FunctionWrapper
+    :return:
+    :rtype:
+    """
+
+    if attr_name is None or versions is None:
+        pass
+
+    decorators = _get_decorators(user_func)
+    base_func_name = _get_function_full_qual_name(decorators[-1])
+
+    if base_func_name not in __versions__.keys():
+        __versions__[base_func_name] = {}
+
+    if attr_name == INPUT_SCHEMA_ATTR or attr_name == OUTPUT_SCHEMA_ATTR:
+        _add_attr_versions_to_global_schema_dictionary(base_func_name, versions, attr_name)
+    else:
+        pass
+
+
 def _add_input_schema_to_global_schema_dictionary(base_func_name, arg_names, schema):
     """
     function to add a generated input schema, to the function schema dict
@@ -231,6 +266,29 @@ def _add_input_schema_to_global_schema_dictionary(base_func_name, arg_names, sch
         __functions_schema__[base_func_name][INPUT_SCHEMA_ATTR]["example"][k] = item_swagger["example"]
         del item_swagger["example"]
         __functions_schema__[base_func_name][INPUT_SCHEMA_ATTR]["properties"][k] = item_swagger
+
+
+def _add_attr_versions_to_global_schema_dictionary(base_func_name, versions, attr):
+    """
+    function to add supported swagger versions to the version dict
+
+    :param base_func_name: function full qualified name
+    :type base_func_name: str
+    :param versions:
+    :type versions: list
+    :param attr:
+    :type attr: str
+    :return:
+    :rtype:
+    """
+
+    if attr not in __versions__[base_func_name].keys():
+        __versions__[base_func_name][attr] = {
+            "type": "object",
+            "versions": {}
+        }
+
+    __versions__[base_func_name][attr]["versions"] = versions
 
 
 def _add_output_schema_to_global_schema_dictionary(base_func_name, schema):
