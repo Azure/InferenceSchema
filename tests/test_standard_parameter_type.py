@@ -23,7 +23,6 @@ class TestStandardPythonParameterType(object):
         assert '3.0' in version_list
         assert '3.1' in version_list
 
-
     def test_standard_handling_list(self):
         def decorated_standard_func(standard_sample_input, standard_sample_output):
             @input_schema('param', StandardPythonParameterType(standard_sample_input))

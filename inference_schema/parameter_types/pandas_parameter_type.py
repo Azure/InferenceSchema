@@ -5,7 +5,7 @@
 import json
 import pandas as pd
 from .abstract_parameter_type import AbstractParameterType
-from ._util import get_swagger_for_list, get_swagger_for_nested_dict
+from ._util import get_swagger_for_list, get_swagger_for_nested_dict, get_supported_versions_from_schema
 from ._constants import SWAGGER_FORMAT_CONSTANTS
 
 
@@ -49,12 +49,8 @@ class PandasParameterType(AbstractParameterType):
                             "'values', or 'table')")
         self.orient = orient
 
-    def _get_supported_versions(self):
-        supported_list = ['2.0', '3.0', '3.1']
-        return sorted(supported_list)
-
     def supported_versions(self):
-        return self._get_supported_versions()
+        return get_supported_versions_from_schema(self.input_to_swagger())
 
     def deserialize_input(self, input_data):
         """

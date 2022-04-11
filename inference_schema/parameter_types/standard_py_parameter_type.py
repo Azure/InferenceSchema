@@ -9,7 +9,7 @@ import json
 from dateutil import parser
 from .abstract_parameter_type import AbstractParameterType
 from ._constants import DATE_FORMAT, ERR_PYTHON_DATA_NOT_JSON_SERIALIZABLE
-from ._util import handle_standard_types
+from ._util import handle_standard_types, get_supported_versions_from_schema
 
 
 class StandardPythonParameterType(AbstractParameterType):
@@ -40,20 +40,8 @@ class StandardPythonParameterType(AbstractParameterType):
                 if issubclass(type(data), AbstractParameterType):
                     self.sample_data_type_list.append(data)
 
-    def _get_supported_versions(self):
-        supported_list = ['3.0', '3.1']
-        v2_compatible = True
-        if self.sample_data_type is list or self.sample_data_type is tuple:
-            iterable_data_type = type(self.sample_input[0])
-            for data in self.sample_input:
-                if type(data) != iterable_data_type:
-                    v2_compatible = False
-        if v2_compatible:
-            supported_list += ['2.0']
-        return sorted(supported_list)
-
     def supported_versions(self):
-        return self._get_supported_versions()
+        return get_supported_versions_from_schema(self.input_to_swagger())
 
     def deserialize_input(self, input_data):
         """

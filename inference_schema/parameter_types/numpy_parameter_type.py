@@ -6,6 +6,7 @@ import numpy as np
 from .abstract_parameter_type import AbstractParameterType
 from ._swagger_from_dtype import Dtype2Swagger
 from ._constants import SWAGGER_FORMAT_CONSTANTS
+from ._util import get_supported_versions_from_schema
 
 
 class NumpyParameterType(AbstractParameterType):
@@ -36,12 +37,8 @@ class NumpyParameterType(AbstractParameterType):
         self.enforce_column_type = enforce_column_type
         self.enforce_shape = enforce_shape
 
-    def _get_supported_versions(self):
-        supported_list = ['2.0', '3.0', '3.1']
-        return sorted(supported_list)
-
     def supported_versions(self):
-        return self._get_supported_versions()
+        return get_supported_versions_from_schema(self.input_to_swagger())
 
     def deserialize_input(self, input_data):
         """
