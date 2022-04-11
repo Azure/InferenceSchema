@@ -98,11 +98,13 @@ def get_swagger_for_nested_dict(python_data):
     schema = {"type": "object", "required": required, "properties": nested_items, "example": examples}
     return schema
 
+
 def get_supported_versions_from_schema(schema):
     supported_list = ['3.0', '3.1']
     if _supports_swagger_2(schema['example']):
         supported_list += ['2.0']
     return sorted(supported_list)
+
 
 def _supports_swagger_2(object):
     if type(object) is list:
