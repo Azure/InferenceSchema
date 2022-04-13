@@ -7,6 +7,7 @@ import pandas as pd
 from .abstract_parameter_type import AbstractParameterType
 from ._util import get_swagger_for_list, get_swagger_for_nested_dict
 from ._constants import SWAGGER_FORMAT_CONSTANTS
+from warnings import warn
 
 
 class PandasParameterType(AbstractParameterType):
@@ -14,10 +15,15 @@ class PandasParameterType(AbstractParameterType):
     Class used to specify an expected parameter as a Pandas type.
     """
 
-    def __init__(self, sample_input, enforce_column_type=True, enforce_shape=True, apply_column_names=True,
+    def __init__(self, sample_input, enforce_column_type=True, enforce_shape=True, apply_column_names=False,
                  orient='records'):
         """
-        Construct the PandasParameterType object.
+        Construct the PandasParameterType object. An important note regarding Pandas DataFrame handling; by default,
+        Pandas supports integer type column names in a DataFrame. However, when using the built in methods for
+        converting a json object to a DataFrame, unless all of the columns are integers, they will all be converted
+        to strings. This ParameterType uses the built in methods for performing conversion, and as such
+        `deserialize_input` has the same limitation. It is recommended to not use a mix of string and integer
+        type column names in the provided sample, as this can lead to inconsistent/unexpected behavior.
 
         :param sample_input: A sample input dataframe. This sample will be used as a basis for column types and array
             shape.
@@ -28,8 +34,10 @@ class PandasParameterType(AbstractParameterType):
         :param enforce_shape: Enforce that input shape must match that of the provided sample when `deserialize_input`
             is called.
         :type enforce_shape: bool
-        :param apply_column_names: Apply column names from the provided sample onto the input when `deserialize_input`
-            is called.
+        :param apply_column_names: [DEPRECATED] Apply column names from the provided sample onto the input when
+            `deserialize_input` is called. Disabled by default, as there is no guaranteed order for dictionary keys,
+            so it's possible for names to be applied in the wrong order when `deserialize_input` is called. The
+            property is deprecated, and will be removed in a future update.
         :type apply_column_names: bool
         :param orient: The Pandas orient to use when converting between a json object and a DataFrame. Possible orients
             are 'split', 'records', 'index', 'columns', 'values', or 'table'. More information about these orients can
@@ -42,6 +50,10 @@ class PandasParameterType(AbstractParameterType):
         super(PandasParameterType, self).__init__(sample_input)
         self.enforce_column_type = enforce_column_type
         self.enforce_shape = enforce_shape
+
+        if apply_column_names:
+            warn('apply_column_names is a deprecated parameter and will be removed in a future update',
+                 DeprecationWarning, stacklevel=2)
         self.apply_column_names = apply_column_names
 
         if orient not in ('split', 'records', 'index', 'columns', 'values', 'table'):
