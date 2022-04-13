@@ -23,6 +23,30 @@ class AbstractParameterType(ABC):
     def __init__(self, sample_input):
         self.sample_input = sample_input
         self.sample_data_type = type(sample_input)
+    
+    def supported_versions(self):
+        return self.get_supported_versions_from_schema(self.input_to_swagger())
+
+    def get_supported_versions_from_schema(self, schema):
+        supported_list = ['3.0', '3.1']
+        if self._supports_swagger_2(schema['example']):
+            supported_list += ['2.0']
+        return sorted(supported_list)
+
+    def _supports_swagger_2(self, obj):
+        if type(obj) is list:
+            first_type = type(obj[0])
+            for elt in obj:
+                if type(elt) is not first_type:
+                    return False
+                elif type(elt) is list:
+                    if not self._supports_swagger_2(elt):
+                        return False
+        elif type(obj) is dict:
+            for elt in obj.values():
+                if not self._supports_swagger_2(elt):
+                    return False
+        return True
 
     @abstractmethod
     def deserialize_input(self, input_data):
@@ -36,13 +60,6 @@ class AbstractParameterType(ABC):
         """
         Abstract method to be overridden by concrete types. Used to convert the provided sample input into a swagger
         schema object.
-        """
-        pass
-
-    @abstractmethod
-    def supported_versions(self):
-        """
-        Abstract method to be overridden by concrete types. Used to return supported OpenApi swagger versions.
         """
         pass
 

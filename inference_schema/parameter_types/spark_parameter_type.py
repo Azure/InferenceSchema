@@ -15,7 +15,6 @@ from pyspark.sql.types import ArrayType
 from pyspark.sql.types import MapType
 from pyspark.sql.types import UserDefinedType
 from .abstract_parameter_type import AbstractParameterType
-from ._util import get_supported_versions_from_schema
 
 
 class SparkParameterType(AbstractParameterType):
@@ -41,9 +40,6 @@ class SparkParameterType(AbstractParameterType):
 
         super(SparkParameterType, self).__init__(sample_input)
         self.apply_sample_schema = apply_sample_schema
-
-    def supported_versions(self):
-        return get_supported_versions_from_schema(self.input_to_swagger())
 
     def deserialize_input(self, input_data):
         """

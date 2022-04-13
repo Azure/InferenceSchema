@@ -5,7 +5,7 @@
 import json
 import pandas as pd
 from .abstract_parameter_type import AbstractParameterType
-from ._util import get_swagger_for_list, get_swagger_for_nested_dict, get_supported_versions_from_schema
+from ._util import get_swagger_for_list, get_swagger_for_nested_dict
 from ._constants import SWAGGER_FORMAT_CONSTANTS
 
 
@@ -48,9 +48,6 @@ class PandasParameterType(AbstractParameterType):
             raise Exception("Invalid orient provided, must be one of ('split', 'records', 'index', 'columns', "
                             "'values', or 'table')")
         self.orient = orient
-
-    def supported_versions(self):
-        return get_supported_versions_from_schema(self.input_to_swagger())
 
     def deserialize_input(self, input_data):
         """
