@@ -3,7 +3,6 @@
 # ---------------------------------------------------------
 
 import copy
-import inspect
 
 from inference_schema._constants import INPUT_SCHEMA_ATTR, OUTPUT_SCHEMA_ATTR
 
@@ -110,7 +109,7 @@ def _get_function_full_qual_name(func):
 
     original_func = _get_decorators(func)[-1]
     base_func_name = original_func.__name__
-    module_name = getattr(original_func, "__module__", "<unknown>")
+    module_name = getattr(original_func, '__module__', '<unknown>')
     return '{}.{}'.format(module_name, base_func_name)
 
 
