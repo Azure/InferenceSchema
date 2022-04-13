@@ -25,9 +25,7 @@ class AbstractParameterType(ABC):
         self.sample_data_type = type(sample_input)
 
     def supported_versions(self):
-        return self.get_supported_versions_from_schema(self.input_to_swagger())
-
-    def get_supported_versions_from_schema(self, schema):
+        schema = self.input_to_swagger()
         supported_list = ['3.0', '3.1']
         if self._supports_swagger_2(schema['example']):
             supported_list += ['2.0']

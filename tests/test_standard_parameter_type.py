@@ -22,11 +22,11 @@ class TestStandardPythonParameterType(object):
         assert '3.0' in version_list
         assert '3.1' in version_list
 
-    def test_standard_handling_list(self, decorated_standard_func_2):
+    def test_standard_handling_list(self, decorated_standard_func_multitype_list):
         standard_input = ['foo', 1]
-        assert 1 == decorated_standard_func_2(standard_input)
+        assert 1 == decorated_standard_func_multitype_list(standard_input)
 
-        version_list = get_supported_versions(decorated_standard_func_2)
+        version_list = get_supported_versions(decorated_standard_func_multitype_list)
         assert '2.0' not in version_list
         assert '3.0' in version_list
         assert '3.1' in version_list
