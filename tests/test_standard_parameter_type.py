@@ -1,10 +1,8 @@
 # ---------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # ---------------------------------------------------------
-from inference_schema.schema_decorators import input_schema, output_schema
 from inference_schema.parameter_types.standard_py_parameter_type import StandardPythonParameterType
 from inference_schema.schema_util import get_supported_versions
-from tests.conftest import decorated_standard_func_2
 
 
 class TestStandardPythonParameterType(object):

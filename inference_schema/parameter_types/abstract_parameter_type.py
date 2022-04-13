@@ -23,7 +23,7 @@ class AbstractParameterType(ABC):
     def __init__(self, sample_input):
         self.sample_input = sample_input
         self.sample_data_type = type(sample_input)
-    
+
     def supported_versions(self):
         return self.get_supported_versions_from_schema(self.input_to_swagger())
 
