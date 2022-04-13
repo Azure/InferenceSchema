@@ -108,10 +108,9 @@ def _get_function_full_qual_name(func):
     :rtype: str
     """
 
-    decorators = _get_decorators(func)
-    base_func_name = decorators[-1].__name__
-    module = inspect.getmodule(decorators[-1])
-    module_name = "" if module is None else module.__name__
+    original_func = _get_decorators(func)[-1]
+    base_func_name = original_func.__name__
+    module_name = getattr(original_func, "__module__", "<unknown>")
     return '{}.{}'.format(module_name, base_func_name)
 
 
