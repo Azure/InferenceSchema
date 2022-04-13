@@ -5,6 +5,7 @@
 import pandas as pd
 
 from pyspark.sql.session import SparkSession
+from inference_schema.schema_util import get_supported_versions
 
 
 class TestSparkParameterType(object):
@@ -25,3 +26,8 @@ class TestSparkParameterType(object):
         spark_input = {'param': [{'name': 'Sarah', 'state': 'WA'}]}
         result = decorated_spark_func(**spark_input)
         assert state.subtract(result).count() == result.subtract(state).count() == 0
+
+        version_list = get_supported_versions(decorated_spark_func)
+        assert '2.0' in version_list
+        assert '3.0' in version_list
+        assert '3.1' in version_list

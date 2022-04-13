@@ -24,6 +24,28 @@ class AbstractParameterType(ABC):
         self.sample_input = sample_input
         self.sample_data_type = type(sample_input)
 
+    def supported_versions(self):
+        schema = self.input_to_swagger()
+        supported_list = ['3.0', '3.1']
+        if self._supports_swagger_2(schema['example']):
+            supported_list += ['2.0']
+        return sorted(supported_list)
+
+    def _supports_swagger_2(self, obj):
+        if type(obj) is list:
+            first_type = type(obj[0])
+            for elt in obj:
+                if type(elt) is not first_type:
+                    return False
+                elif type(elt) is list:
+                    if not self._supports_swagger_2(elt):
+                        return False
+        elif type(obj) is dict:
+            for elt in obj.values():
+                if not self._supports_swagger_2(elt):
+                    return False
+        return True
+
     @abstractmethod
     def deserialize_input(self, input_data):
         """

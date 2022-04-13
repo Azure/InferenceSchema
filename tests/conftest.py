@@ -185,6 +185,27 @@ def decorated_standard_func(standard_sample_input, standard_sample_output):
 
 
 @pytest.fixture(scope="session")
+def standard_sample_input_multitype_list():
+    return ['foo', 1]
+
+
+@pytest.fixture(scope="session")
+def standard_sample_output_multitype_list():
+    return 5
+
+
+@pytest.fixture(scope="session")
+def decorated_standard_func_multitype_list(standard_sample_input_multitype_list, standard_sample_output_multitype_list):
+    @input_schema('param', StandardPythonParameterType(standard_sample_input_multitype_list))
+    @output_schema(StandardPythonParameterType(standard_sample_output_multitype_list))
+    def standard_py_func_multitype_list(param):
+        assert type(param) is list
+        return param[1]
+
+    return standard_py_func_multitype_list
+
+
+@pytest.fixture(scope="session")
 def decorated_float_func():
     @input_schema('param', StandardPythonParameterType(1.0))
     def standard_float_func(param):
