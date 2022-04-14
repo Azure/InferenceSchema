@@ -32,7 +32,7 @@ class AbstractParameterType(ABC):
         return sorted(supported_list)
 
     def _supports_swagger_2(self, obj):
-        if type(obj) is list:
+        if type(obj) is list and len(obj) > 0:
             first_type = type(obj[0])
             for elt in obj:
                 if type(elt) is not first_type:
