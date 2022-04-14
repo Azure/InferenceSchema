@@ -31,6 +31,15 @@ class TestStandardPythonParameterType(object):
         assert '3.0' in version_list
         assert '3.1' in version_list
 
+    def test_standard_handling_empty_list(self, decorated_standard_func_empty_list):
+        standard_input = []
+        assert [] == decorated_standard_func_empty_list(standard_input)
+
+        version_list = get_supported_versions(decorated_standard_func_empty_list)
+        assert '2.0' in version_list
+        assert '3.0' in version_list
+        assert '3.1' in version_list
+
     def test_supported_versions_string(self):
         assert '2.0' in StandardPythonParameterType({'name': ['Sarah'], 'state': ['WA']}).supported_versions()
         assert '2.0' not in StandardPythonParameterType(['foo', 1]).supported_versions()
