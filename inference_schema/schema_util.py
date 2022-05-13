@@ -4,7 +4,7 @@
 
 import copy
 
-from inference_schema._constants import INPUT_SCHEMA_ATTR, OUTPUT_SCHEMA_ATTR
+from inference_schema._constants import INPUT_SCHEMA_ATTR, OUTPUT_SCHEMA_ATTR, ALL_SUPPORTED_VERSIONS
 
 __functions_schema__ = {}
 __versions__ = {}
@@ -50,7 +50,14 @@ def get_supported_versions(func):
 
     input_versions = __versions__.get(func_base_name, {}).get(INPUT_SCHEMA_ATTR, {}).get('versions', [])
     output_versions = __versions__.get(func_base_name, {}).get(OUTPUT_SCHEMA_ATTR, {}).get('versions', [])
-    set_intersection = set(input_versions) & set(output_versions)
+    if input_versions and output_versions:
+        set_intersection = set(input_versions) & set(output_versions)
+    elif input_versions:
+        set_intersection = set(input_versions)
+    elif output_versions:
+        set_intersection = set(output_versions)
+    else:
+        set_intersection = ALL_SUPPORTED_VERSIONS
     return sorted(list(set_intersection))
 
 
