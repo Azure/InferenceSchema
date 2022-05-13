@@ -38,7 +38,10 @@ def get_output_schema(func):
 
 def get_supported_versions(func):
     """
-    Extract supported swagger versions from the decorated function.
+    Extract supported swagger versions from the decorated function. This will return the min set of supported
+    versions between any decorators provided to the specified function. This could result in an empty list
+    (if there is no overlap in versions between decorators), and it is ultimately up to the caller to decide
+    how that case should be handled when creating the swagger document.
 
     :param func:
     :type func: function | FunctionWrapper
