@@ -22,7 +22,7 @@ DEPENDENCIES = [
 EXTRAS = {
     'numpy-support': ['numpy>=1.13.0'],
     'pandas-support': ['pandas>=0.20.2'],
-    'pyspark-support': ['pyspark==2.3.2']
+    'pyspark-support': ['pyspark>=2.3.2']
 }
 
 CLASSIFIERS = [
