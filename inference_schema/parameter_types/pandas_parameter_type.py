@@ -7,6 +7,7 @@ import pandas as pd
 from .abstract_parameter_type import AbstractParameterType
 from ._util import get_swagger_for_list, get_swagger_for_nested_dict
 from ._constants import SWAGGER_FORMAT_CONSTANTS
+from io import StringIO
 from warnings import warn
 
 
