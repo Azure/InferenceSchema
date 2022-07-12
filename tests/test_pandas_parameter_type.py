@@ -31,6 +31,10 @@ class TestPandasParameterType(object):
         assert '3.0' in version_list
         assert '3.1' in version_list
 
+        pandas_input = {'state': ['WA'], 'url': ['http://fakeurl.com']}
+        result = decorated_pandas_func(pandas_input)
+        assert_frame_equal(result, state)
+
     def test_pandas_orient_handling(self, decorated_pandas_func_split_orient):
         pandas_input = {"columns": ["name", "state"], "index": [0], "data": [["Sarah", "WA"]]}
         state = pd.DataFrame(pd.read_json(json.dumps(pandas_input), orient='split')['state'])
@@ -51,6 +55,17 @@ class TestPandasParameterType(object):
         input = pandas_sample_input_int_column_labels.to_dict(orient='records')
         result = decorated_pandas_func_int_column_labels(input)
         assert_frame_equal(result, pandas_sample_input_int_column_labels)
+
+    def test_pandas_url_handling(self, decorated_pandas_uri_func):
+        pandas_input = {'state': ['WA'], 'website': ['http://wa.website.foo']}
+        website = pandas_input['website'][0]
+        result = decorated_pandas_uri_func(pandas_input)
+        assert website == result
+
+        pandas_input = {'state': ['WA'], 'website': ['This is an embedded url: http://wa.website.foo']}
+        website = pandas_input['website'][0]
+        result = decorated_pandas_uri_func(pandas_input)
+        assert website == result
 
 
 class TestNestedType(object):

@@ -64,6 +64,12 @@ def pandas_sample_input_int_column_labels():
 
 
 @pytest.fixture(scope="session")
+def pandas_sample_input_with_url():
+    pandas_input_data = {'state': ['WA'], 'website': ['http://wa.website.foo']}
+    return pd.DataFrame(data=pandas_input_data)
+
+
+@pytest.fixture(scope="session")
 def decorated_pandas_func(pandas_sample_input, pandas_sample_output):
     @input_schema('param', PandasParameterType(pandas_sample_input))
     @output_schema(PandasParameterType(pandas_sample_output))
@@ -122,7 +128,6 @@ def decorated_pandas_func_split_orient(pandas_sample_input, pandas_sample_output
 
 @pytest.fixture(scope="session")
 def decorated_pandas_func_int_column_labels(pandas_sample_input_int_column_labels):
-
     @input_schema('param', PandasParameterType(pandas_sample_input_int_column_labels))
     def pandas_int_column_labels_func(param):
         """
@@ -137,6 +142,23 @@ def decorated_pandas_func_int_column_labels(pandas_sample_input_int_column_label
         return param
 
     return pandas_int_column_labels_func
+
+
+@pytest.fixture(scope="session")
+def decorated_pandas_uri_func(pandas_sample_input_with_url):
+    @input_schema('param', PandasParameterType(pandas_sample_input_with_url))
+    def pandas_url_func(param):
+        """
+
+        :param param:
+        :type param: pd.DataFrame
+        :return:
+        :rtype: string
+        """
+        assert type(param) is pd.DataFrame
+        return param['website'][0]
+
+    return pandas_url_func
 
 
 @pytest.fixture(scope="session")

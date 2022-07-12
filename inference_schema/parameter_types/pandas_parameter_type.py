@@ -7,6 +7,7 @@ import pandas as pd
 from .abstract_parameter_type import AbstractParameterType
 from ._util import get_swagger_for_list, get_swagger_for_nested_dict
 from ._constants import SWAGGER_FORMAT_CONSTANTS
+from io import StringIO
 from warnings import warn
 
 
@@ -78,7 +79,8 @@ class PandasParameterType(AbstractParameterType):
         if not isinstance(input_data, list) and not isinstance(input_data, dict):
             raise Exception("Error, unable to convert input of type {} into Pandas Dataframe".format(type(input_data)))
 
-        data_frame = pd.read_json(json.dumps(input_data), orient=self.orient)
+        string_stream = StringIO(json.dumps(input_data))
+        data_frame = pd.read_json(string_stream, orient=self.orient)
 
         if self.apply_column_names:
             data_frame.columns = self.sample_input.columns.copy()
