@@ -78,7 +78,8 @@ class PandasParameterType(AbstractParameterType):
         if not isinstance(input_data, list) and not isinstance(input_data, dict):
             raise Exception("Error, unable to convert input of type {} into Pandas Dataframe".format(type(input_data)))
 
-        data_frame = pd.read_json(json.dumps(input_data), orient=self.orient)
+        data = StringIO(json.dumps(input_data))
+        data_frame = pd.read_json(data, orient=self.orient)
 
         if self.apply_column_names:
             data_frame.columns = self.sample_input.columns.copy()
