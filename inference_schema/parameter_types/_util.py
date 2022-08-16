@@ -73,7 +73,7 @@ def get_swagger_for_list(python_data):
             else:
                 nested_item_swagger = handle_standard_types(data)
             example.append(nested_item_swagger['example'])
-            del(nested_item_swagger['example'])
+            del nested_item_swagger['example']
 
     schema = {"type": "array", "items": nested_item_swagger, "example": example}
     return schema
@@ -92,7 +92,7 @@ def get_swagger_for_nested_dict(python_data):
             nested_item_swagger = handle_standard_types(data)
 
         examples[key] = nested_item_swagger['example']
-        del(nested_item_swagger['example'])
+        del nested_item_swagger['example']
         nested_items[key] = nested_item_swagger
 
     schema = {"type": "object", "required": required, "properties": nested_items, "example": examples}
