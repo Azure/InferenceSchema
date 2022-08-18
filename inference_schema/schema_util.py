@@ -99,7 +99,7 @@ def _get_decorators(func):
     """
 
     dec = []
-    if not func.__closure__:
+    if not hasattr(func, '__closure__') or not func.__closure__:
         return [func]
     if hasattr(func, '__closure__'):
         for closure in func.__closure__:
@@ -118,7 +118,7 @@ def _get_function_full_qual_name(func):
     """
 
     original_func = _get_decorators(func)[-1]
-    base_func_name = original_func.__name__
+    base_func_name = getattr(original_func, '__name__', '<unknown>')
     module_name = getattr(original_func, '__module__', '<unknown>')
     return '{}.{}'.format(module_name, base_func_name)
 
