@@ -91,7 +91,7 @@ def decorated_pandas_func(pandas_sample_input, pandas_sample_output):
 def decorated_pandas_datetime_func():
     pandas_sample_timestamp_input = pd.DataFrame(
         {
-            'datetime': pd.Series(['2013-12-31T00:00:00.000'], dtype='datetime64[ns]').dt.tz_localize(None),
+            'datetime': pd.Series(['2013-12-31T00:00:00.000'], dtype='datetime64[ns, UTC]'),
             'days': pd.Series([pd.Timedelta(days=1)])
         }
     )
