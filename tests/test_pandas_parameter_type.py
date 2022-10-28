@@ -46,7 +46,7 @@ class TestPandasParameterType(object):
         timedelta_str = 'P1DT0H0M0S'
         pandas_input = {'param': [{'datetime': datetime_str, 'days': timedelta_str}]}
         datetime = pd.DataFrame(
-            pd.DataFrame({'datetime': pd.Series([datetime_str], dtype='datetime64[ns]')})['datetime'])
+            pd.DataFrame({'datetime': pd.Series([datetime_str], dtype='datetime64[ns, UTC]')})['datetime'])
         result = decorated_pandas_datetime_func(**pandas_input)
         assert_frame_equal(result, datetime)
 
