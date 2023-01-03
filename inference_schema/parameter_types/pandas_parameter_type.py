@@ -80,7 +80,7 @@ class PandasParameterType(AbstractParameterType):
             raise Exception("Error, unable to convert input of type {} into Pandas Dataframe".format(type(input_data)))
 
         string_stream = StringIO(json.dumps(input_data))
-        data_frame = pd.read_json(string_stream, orient=self.orient)
+        data_frame = pd.read_json(string_stream, orient=self.orient, dtype=False)
 
         if self.apply_column_names:
             data_frame.columns = self.sample_input.columns.copy()

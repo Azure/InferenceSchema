@@ -67,6 +67,17 @@ class TestPandasParameterType(object):
         result = decorated_pandas_uri_func(pandas_input)
         assert website == result
 
+    def test_pandas_categorical_handling(self, decorated_pandas_categorical_func):
+        pandas_input = {'state': ['WA'], 'cat': ['000']}
+        categorical = pandas_input['cat'][0]
+        result = decorated_pandas_categorical_func(pandas_input)
+        assert categorical == result
+
+        pandas_input = {'state': ['WA'], 'cat': ['001']}
+        categorical = pandas_input['cat'][0]
+        result = decorated_pandas_categorical_func(pandas_input)
+        assert categorical == result
+
 
 class TestNestedType(object):
 
