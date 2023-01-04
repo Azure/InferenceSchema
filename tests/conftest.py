@@ -163,10 +163,12 @@ def decorated_pandas_uri_func(pandas_sample_input_with_url):
 
     return pandas_url_func
 
+
 @pytest.fixture(scope="session")
 def pandas_sample_input_with_categorical():
     pandas_input_data = {'state': ['characters'], 'cat': ['000']}
     return pd.DataFrame(data=pandas_input_data)
+
 
 @pytest.fixture(scope="session")
 def decorated_pandas_categorical_func(pandas_sample_input_with_categorical):
@@ -183,6 +185,7 @@ def decorated_pandas_categorical_func(pandas_sample_input_with_categorical):
         return param['cat'][0]
 
     return pandas_categorical_func
+
 
 @pytest.fixture(scope="session")
 def decorated_spark_func():
