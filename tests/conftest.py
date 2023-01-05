@@ -165,6 +165,29 @@ def decorated_pandas_uri_func(pandas_sample_input_with_url):
 
 
 @pytest.fixture(scope="session")
+def pandas_sample_input_with_categorical():
+    pandas_input_data = {'state': ['characters'], 'cat': ['000']}
+    return pd.DataFrame(data=pandas_input_data)
+
+
+@pytest.fixture(scope="session")
+def decorated_pandas_categorical_func(pandas_sample_input_with_categorical):
+    @input_schema('param', PandasParameterType(pandas_sample_input_with_categorical))
+    def pandas_categorical_func(param):
+        """
+
+        :param param:
+        :type param: pd.DataFrame
+        :return:
+        :rtype: string
+        """
+        assert type(param) is pd.DataFrame
+        return param['cat'][0]
+
+    return pandas_categorical_func
+
+
+@pytest.fixture(scope="session")
 def decorated_spark_func():
     spark_session = SparkSession.builder.config('spark.driver.host', '127.0.0.1').getOrCreate()
     spark_input_data = pd.DataFrame({'name': ['Sarah', 'John'], 'state': ['WA', 'CA']})
