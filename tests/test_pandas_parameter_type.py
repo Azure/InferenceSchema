@@ -78,6 +78,23 @@ class TestPandasParameterType(object):
         result = decorated_pandas_categorical_func(pandas_input)
         assert categorical == result
 
+    def test_pandas_params_handling(self, decorated_pandas_func_parameters):
+        pandas_input_data = {
+            "columns": [
+                "sentence1"
+            ],
+            "data": [
+                [ "this is a string starting with" ]
+            ],
+            "index": [0],
+            "parameters": {
+                "num_beams": 2,
+                "max_length": 512
+            }
+        }
+        result = decorated_pandas_func_parameters(pandas_input_data)
+        assert result[0] == "this is a string starting with"
+
 
 class TestNestedType(object):
 

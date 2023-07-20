@@ -340,5 +340,7 @@ def _deserialize_input_argument(input_data, param_type, param_name):
     else:
         # non-nested input will be deserialized
         if not isinstance(input_data, sample_data_type):
+            if "parameters" in input_data:
+                input_data.pop("parameters")
             input_data = param_type.deserialize_input(input_data)
     return input_data

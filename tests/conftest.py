@@ -70,6 +70,21 @@ def pandas_sample_input_with_url():
 
 
 @pytest.fixture(scope="session")
+def pandas_sample_input_with_params():
+    import json
+    pandas_input_data = {
+        "columns": [
+            "sentence1"
+        ],
+        "data": [
+            [ "this is a string starting with" ]
+        ],
+        "index": [0]
+    }
+    return pd.read_json(json.dumps(pandas_input_data), orient='split')
+
+
+@pytest.fixture(scope="session")
 def decorated_pandas_func(pandas_sample_input, pandas_sample_output):
     @input_schema('param', PandasParameterType(pandas_sample_input))
     @output_schema(PandasParameterType(pandas_sample_output))
@@ -162,6 +177,16 @@ def decorated_pandas_uri_func(pandas_sample_input_with_url):
         return param['website'][0]
 
     return pandas_url_func
+
+
+@pytest.fixture(scope="session")
+def decorated_pandas_func_parameters(pandas_sample_input_with_params):
+    @input_schema('param', PandasParameterType(pandas_sample_input_with_params, orient='split'))
+    def pandas_params_func(param):
+        assert type(param) is pd.DataFrame
+        return param["sentence1"]
+    
+    return pandas_params_func
 
 
 @pytest.fixture(scope="session")
