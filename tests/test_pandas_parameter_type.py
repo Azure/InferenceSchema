@@ -80,13 +80,15 @@ class TestPandasParameterType(object):
 
     def test_pandas_params_handling(self, decorated_pandas_func_parameters):
         pandas_input_data = {
-            "columns": [
+            "split_df": {
+                "columns": [
                 "sentence1"
-            ],
-            "data": [
+                ],
+                "data": [
                 [ "this is a string starting with" ]
-            ],
-            "index": [0],
+                ],
+                "index": [0]
+            },
             "parameters": {
                 "num_beams": 2,
                 "max_length": 512

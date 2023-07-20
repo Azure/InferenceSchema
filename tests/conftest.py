@@ -85,6 +85,11 @@ def pandas_sample_input_for_params():
 
 
 @pytest.fixture(scope="session")
+def sample_param_dict():
+    return {"num_beams": 1, "max_length": 2}
+
+
+@pytest.fixture(scope="session")
 def decorated_pandas_func(pandas_sample_input, pandas_sample_output):
     @input_schema('param', PandasParameterType(pandas_sample_input))
     @output_schema(PandasParameterType(pandas_sample_output))
@@ -180,11 +185,16 @@ def decorated_pandas_uri_func(pandas_sample_input_with_url):
 
 
 @pytest.fixture(scope="session")
-def decorated_pandas_func_parameters(pandas_sample_input_for_params):
-    @input_schema('param', PandasParameterType(pandas_sample_input_for_params, orient='split'))
-    def pandas_params_func(param):
-        assert type(param) is pd.DataFrame
-        return param["sentence1"]
+def decorated_pandas_func_parameters(pandas_sample_input_for_params, sample_param_dict):
+    @input_schema('input_data', StandardPythonParameterType({
+        'split_df': PandasParameterType(pandas_sample_input_for_params, orient='split'),
+        'parameters': StandardPythonParameterType(sample_param_dict)
+    }))
+    def pandas_params_func(input_data):
+        assert type(input_data) is dict
+        assert type(input_data["split_df"]) is pd.DataFrame
+        assert type(input_data["parameters"]) is dict
+        return input_data["split_df"]["sentence1"]
     
     return pandas_params_func
 
