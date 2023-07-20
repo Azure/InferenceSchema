@@ -70,7 +70,7 @@ def pandas_sample_input_with_url():
 
 
 @pytest.fixture(scope="session")
-def pandas_sample_input_with_params():
+def pandas_sample_input_for_params():
     import json
     pandas_input_data = {
         "columns": [
@@ -180,8 +180,8 @@ def decorated_pandas_uri_func(pandas_sample_input_with_url):
 
 
 @pytest.fixture(scope="session")
-def decorated_pandas_func_parameters(pandas_sample_input_with_params):
-    @input_schema('param', PandasParameterType(pandas_sample_input_with_params, orient='split'))
+def decorated_pandas_func_parameters(pandas_sample_input_for_params):
+    @input_schema('param', PandasParameterType(pandas_sample_input_for_params, orient='split'))
     def pandas_params_func(param):
         assert type(param) is pd.DataFrame
         return param["sentence1"]
