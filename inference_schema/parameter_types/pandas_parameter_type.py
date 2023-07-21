@@ -91,7 +91,15 @@ class PandasParameterType(AbstractParameterType):
             for column_name, column_type in converted_types.items():
                 if str(column_type).startswith('timedelta'):
                     data_frame[column_name] = pd.to_timedelta(data_frame[column_name])
-            data_frame = data_frame.astype(dtype=converted_types)
+
+            try:
+                data_frame = data_frame.astype(dtype=converted_types)
+            except TypeError as e:
+                if 'Cannot use .astype to convert from timezone-naive dtype to timezone-aware dtype' in e.args[0]:
+                    raise Exception("As of pandas 2.0, can no longer convert from timezone-naive dtype to "
+                                    "timezone-aware dtype. Please make sure that the provided input data matches "
+                                    "the expected timezone handling of the provided deployment sample.") from e
+                raise
 
         if self.enforce_shape:
             expected_shape = self.sample_input.shape
