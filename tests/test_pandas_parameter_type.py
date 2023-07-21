@@ -42,7 +42,7 @@ class TestPandasParameterType(object):
         assert_frame_equal(result, state)
 
     def test_pandas_timestamp_handling(self, decorated_pandas_datetime_func):
-        datetime_str = '2013-12-31 00:00:00,000000'
+        datetime_str = '2013-12-31T00:00:00+00:00'
         timedelta_str = 'P1DT0H0M0S'
         pandas_input = {'param': [{'datetime': datetime_str, 'days': timedelta_str}]}
         datetime = pd.DataFrame(
