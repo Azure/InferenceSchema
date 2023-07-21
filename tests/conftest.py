@@ -77,7 +77,7 @@ def pandas_sample_input_for_params():
             "sentence1"
         ],
         "data": [
-            [ "this is a string starting with" ]
+            ["this is a string starting with"]
         ],
         "index": [0]
     }
@@ -197,7 +197,7 @@ def decorated_pandas_func_parameters(pandas_sample_input_for_params, sample_para
             assert type(input_data["parameters"]) is dict
         beams = input_data['parameters']['num_beams'] if 'parameters' in input_data else 0
         return input_data["split_df"]["sentence1"], beams
-    
+
     return pandas_params_func
 
 

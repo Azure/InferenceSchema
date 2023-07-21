@@ -82,10 +82,10 @@ class TestPandasParameterType(object):
         pandas_input_data = {"input_data":{
             "split_df": {
                 "columns": [
-                "sentence1"
+                    "sentence1"
                 ],
                 "data": [
-                [ "this is a string starting with" ]
+                    ["this is a string starting with"]
                 ],
                 "index": [0]
             },
@@ -99,13 +99,13 @@ class TestPandasParameterType(object):
         assert result[1] == 2
 
     def test_pandas_params_handling_without_params(self, decorated_pandas_func_parameters):
-        pandas_input_data = {"input_data":{
+        pandas_input_data = {"input_data": {
             "split_df": {
                 "columns": [
-                "sentence1"
+                    "sentence1"
                 ],
                 "data": [
-                [ "this is a string starting with" ]
+                    ["this is a string starting with"]
                 ],
                 "index": [0]
             }
