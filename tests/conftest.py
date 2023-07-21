@@ -70,6 +70,26 @@ def pandas_sample_input_with_url():
 
 
 @pytest.fixture(scope="session")
+def pandas_sample_input_for_params():
+    import json
+    pandas_input_data = {
+        "columns": [
+            "sentence1"
+        ],
+        "data": [
+            ["this is a string starting with"]
+        ],
+        "index": [0]
+    }
+    return pd.read_json(json.dumps(pandas_input_data), orient='split')
+
+
+@pytest.fixture(scope="session")
+def sample_param_dict():
+    return {"num_beams": 1, "max_length": 2}
+
+
+@pytest.fixture(scope="session")
 def decorated_pandas_func(pandas_sample_input, pandas_sample_output):
     @input_schema('param', PandasParameterType(pandas_sample_input))
     @output_schema(PandasParameterType(pandas_sample_output))
@@ -162,6 +182,23 @@ def decorated_pandas_uri_func(pandas_sample_input_with_url):
         return param['website'][0]
 
     return pandas_url_func
+
+
+@pytest.fixture(scope="session")
+def decorated_pandas_func_parameters(pandas_sample_input_for_params, sample_param_dict):
+    @input_schema('input_data', StandardPythonParameterType({
+        'split_df': PandasParameterType(pandas_sample_input_for_params, orient='split'),
+        'parameters': StandardPythonParameterType(sample_param_dict)
+    }))
+    def pandas_params_func(input_data):
+        assert type(input_data) is dict
+        assert type(input_data["split_df"]) is pd.DataFrame
+        if 'parameters' in input_data:
+            assert type(input_data["parameters"]) is dict
+        beams = input_data['parameters']['num_beams'] if 'parameters' in input_data else 0
+        return input_data["split_df"]["sentence1"], beams
+
+    return pandas_params_func
 
 
 @pytest.fixture(scope="session")

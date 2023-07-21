@@ -327,7 +327,7 @@ def _deserialize_input_argument(input_data, param_type, param_name):
         # parameters other than subclass of AbstractParameterType will not be handled
         for k, v in sample_data_type_map.items():
             if k not in input_data.keys():
-                raise Exception('Invalid input. Expected: key "{0}" in "{1}"'.format(k, param_name))
+                continue
             input_data[k] = _deserialize_input_argument(input_data[k], v, k)
     elif sample_data_type in (list, tuple):
         sample_data_type_list = param_type.sample_data_type_list
