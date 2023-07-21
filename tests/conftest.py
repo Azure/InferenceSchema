@@ -193,8 +193,10 @@ def decorated_pandas_func_parameters(pandas_sample_input_for_params, sample_para
     def pandas_params_func(input_data):
         assert type(input_data) is dict
         assert type(input_data["split_df"]) is pd.DataFrame
-        assert type(input_data["parameters"]) is dict
-        return input_data["split_df"]["sentence1"]
+        if 'parameters' in input_data:
+            assert type(input_data["parameters"]) is dict
+        beams = input_data['parameters']['num_beams'] if 'parameters' in input_data else 0
+        return input_data["split_df"]["sentence1"], beams
     
     return pandas_params_func
 

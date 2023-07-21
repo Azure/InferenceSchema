@@ -79,7 +79,7 @@ class TestPandasParameterType(object):
         assert categorical == result
 
     def test_pandas_params_handling(self, decorated_pandas_func_parameters):
-        pandas_input_data = {
+        pandas_input_data = {"input_data":{
             "split_df": {
                 "columns": [
                 "sentence1"
@@ -93,9 +93,26 @@ class TestPandasParameterType(object):
                 "num_beams": 2,
                 "max_length": 512
             }
-        }
-        result = decorated_pandas_func_parameters(pandas_input_data)
-        assert result[0] == "this is a string starting with"
+        }}
+        result = decorated_pandas_func_parameters(**pandas_input_data)
+        assert result[0][0] == "this is a string starting with"
+        assert result[1] == 2
+
+    def test_pandas_params_handling_without_params(self, decorated_pandas_func_parameters):
+        pandas_input_data = {"input_data":{
+            "split_df": {
+                "columns": [
+                "sentence1"
+                ],
+                "data": [
+                [ "this is a string starting with" ]
+                ],
+                "index": [0]
+            }
+        }}
+        result = decorated_pandas_func_parameters(**pandas_input_data)
+        assert result[0][0] == "this is a string starting with"
+        assert result[1] == 0
 
 
 class TestNestedType(object):
