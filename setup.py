@@ -6,7 +6,7 @@ import io
 from setuptools import setup
 from setuptools import find_packages
 
-VERSION = '1.5.1'
+VERSION = '1.6'
 
 NAME = 'inference-schema'
 
@@ -30,7 +30,6 @@ CLASSIFIERS = [
     'Intended Audience :: Developers',
     'Intended Audience :: System Administrators',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
