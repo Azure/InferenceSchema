@@ -79,7 +79,7 @@ class TestPandasParameterType(object):
         assert categorical == result
 
     def test_pandas_params_handling(self, decorated_pandas_func_parameters):
-        pandas_input_data = {"input_data":{
+        pandas_input_data = {"input_data": {
             "split_df": {
                 "columns": [
                     "sentence1"
