@@ -186,17 +186,14 @@ def decorated_pandas_uri_func(pandas_sample_input_with_url):
 
 @pytest.fixture(scope="session")
 def decorated_pandas_func_parameters(pandas_sample_input_for_params, sample_param_dict):
-    @input_schema('input_data', StandardPythonParameterType({
-        'split_df': PandasParameterType(pandas_sample_input_for_params, orient='split'),
-        'parameters': StandardPythonParameterType(sample_param_dict)
-    }))
-    def pandas_params_func(input_data):
-        assert type(input_data) is dict
-        assert type(input_data["split_df"]) is pd.DataFrame
-        if 'parameters' in input_data:
-            assert type(input_data["parameters"]) is dict
-        beams = input_data['parameters']['num_beams'] if 'parameters' in input_data else 0
-        return input_data["split_df"]["sentence1"], beams
+    @input_schema('input_data', PandasParameterType(pandas_sample_input_for_params, orient='split'))
+    @input_schema('params', StandardPythonParameterType(sample_param_dict), optional=True)
+    def pandas_params_func(input_data, params=None):
+        assert type(input_data) is pd.DataFrame
+        if params is not None:
+            assert type(params) is dict
+        beams = params['num_beams'] if params is not None else 0
+        return input_data["sentence1"], beams
 
     return pandas_params_func
 
