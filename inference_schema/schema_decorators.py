@@ -12,7 +12,7 @@ from .parameter_types.abstract_parameter_type import AbstractParameterType
 from ._constants import INPUT_SCHEMA_ATTR, OUTPUT_SCHEMA_ATTR
 
 
-def input_schema(param_name, param_type, convert_to_provided_type=True):
+def input_schema(param_name, param_type, convert_to_provided_type=True, optional=False):
     """
     Decorator to define an input schema model for a function parameter
     The input schema is a representation of what type the function expects
@@ -46,7 +46,7 @@ def input_schema(param_name, param_type, convert_to_provided_type=True):
         if convert_to_provided_type:
             args = list(args)
 
-            if param_name not in kwargs.keys():
+            if param_name not in kwargs.keys() and not optional:
                 decorators = _get_decorators(user_run)
                 arg_names = inspect.getfullargspec(decorators[-1]).args
                 if param_name not in arg_names:
@@ -54,6 +54,8 @@ def input_schema(param_name, param_type, convert_to_provided_type=True):
                                     'is not in the decorated function.'.format(param_name))
                 param_position = arg_names.index(param_name)
                 args[param_position] = _deserialize_input_argument(args[param_position], param_type, param_name)
+            elif param_name not in kwargs.keys() and optional:
+                pass
             else:
                 kwargs[param_name] = _deserialize_input_argument(kwargs[param_name], param_type, param_name)
 
