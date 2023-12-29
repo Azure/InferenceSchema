@@ -110,6 +110,21 @@ class TestPandasParameterType(object):
         assert result[0][0] == "this is a string starting with"
         assert result[1] == 0
 
+    def test_pandas_params_handling_with_none_params(self, decorated_pandas_func_parameters):
+        pandas_input_data = {
+            "columns": [
+                "sentence1"
+            ],
+            "data": [
+                ["this is a string starting with"]
+            ],
+            "index": [0]
+        }
+        parameters = None
+        result = decorated_pandas_func_parameters(pandas_input_data, params=parameters)
+        assert result[0][0] == "this is a string starting with"
+        assert result[1] == 0
+
 
 class TestNestedType(object):
 
