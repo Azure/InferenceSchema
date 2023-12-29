@@ -54,7 +54,7 @@ def input_schema(param_name, param_type, convert_to_provided_type=True, optional
                                     'is not in the decorated function.'.format(param_name))
                 param_position = arg_names.index(param_name)
                 args[param_position] = _deserialize_input_argument(args[param_position], param_type, param_name)
-            elif (param_name not in kwargs.keys() and optional) or (not kwargs[param_name] and optional):
+            elif optional and (param_name not in kwargs.keys() or not kwargs[param_name]):
                 pass
             else:
                 kwargs[param_name] = _deserialize_input_argument(kwargs[param_name], param_type, param_name)
