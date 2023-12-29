@@ -50,5 +50,5 @@ setup(
     extras_require=EXTRAS,
     packages=find_packages(exclude=['tests', 'tests.*']),
     include_package_data=True,
-    python_requires=">=3.7,<3.11"
+    python_requires=">=3.8,<3.12"
 )
