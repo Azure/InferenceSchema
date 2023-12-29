@@ -16,7 +16,7 @@ DESCRIPTION = 'This package is intended to provide a uniform schema for common m
 DEPENDENCIES = [
     'python_dateutil>=2.5.3',
     'pytz>=2017.2',
-    'wrapt>=1.11.1,<=1.12.1'
+    'wrapt>=1.14.0,<=1.16.0'
 ]
 
 EXTRAS = {
