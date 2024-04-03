@@ -267,6 +267,19 @@ def decorated_standard_func(standard_sample_input, standard_sample_output):
 
 
 @pytest.fixture(scope="session")
+def decorated_standard_func_parameters(standard_sample_input, sample_param_dict):
+    @input_schema('input_data', StandardPythonParameterType(standard_sample_input))
+    @input_schema('params', StandardPythonParameterType(sample_param_dict), optional=False)
+    def standard_params_func(input_data, params=None):
+        if params is not None:
+            assert type(params) is dict
+        beams = params['num_beams'] if params is not None else 0
+        return input_data["input_string"], beams
+
+    return standard_params_func
+
+
+@pytest.fixture(scope="session")
 def standard_sample_input_multitype_list():
     return ['foo', 1]
 

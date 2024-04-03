@@ -52,3 +52,15 @@ class TestStandardPythonParameterType(object):
         int_input = 1
         result = decorated_float_func(int_input)
         assert int_input == result
+
+    def test_standard_params_handling_hftransformersv2(self, decorated_standard_func_parameters):
+        input_data = {
+            "input_string": ["the meaning of life is"],
+            "parameters": {
+                "num_beams": 2,
+                "max_length": 512
+            }
+        }
+        result = decorated_standard_func_parameters(input_data)
+        assert result[0][0] == "the meaning of life is"
+        assert result[1] == 0

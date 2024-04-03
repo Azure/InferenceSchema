@@ -43,9 +43,13 @@ def input_schema(param_name, param_type, convert_to_provided_type=True, optional
 
     @_schema_decorator(attr_name=INPUT_SCHEMA_ATTR, schema=swagger_schema, supported_versions=supported_versions)
     def decorator_input(user_run, instance, args, kwargs):
-        if convert_to_provided_type:
+        is_hftransformersv2 = False
+        if len(args) > 0 and type(args[0]) is dict:
+            args_keys = args[0].keys()
+            is_hftransformersv2 = len(args_keys) == 2 and "parameters" in args_keys and "input_string" in args_keys
+        # skip all of this for hftransformersv2
+        if convert_to_provided_type and not is_hftransformersv2:
             args = list(args)
-
             if param_name not in kwargs.keys() and not optional:
                 decorators = _get_decorators(user_run)
                 arg_names = inspect.getfullargspec(decorators[-1]).args
