@@ -6,7 +6,7 @@ import io
 from setuptools import setup
 from setuptools import find_packages
 
-VERSION = '1.7.1'
+VERSION = '1.7.2'
 
 NAME = 'inference-schema'
 
