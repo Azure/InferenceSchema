@@ -34,6 +34,7 @@ CLASSIFIERS = [
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
 ]
 
 with io.open('LICENSE.txt', 'r', encoding='utf-8') as f:
@@ -50,5 +51,5 @@ setup(
     extras_require=EXTRAS,
     packages=find_packages(exclude=['tests', 'tests.*']),
     include_package_data=True,
-    python_requires=">=3.8,<3.12"
+    python_requires=">=3.8,<3.13"
 )
